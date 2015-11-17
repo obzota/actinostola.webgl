@@ -23,15 +23,24 @@ var Camera = {
 var Projection = {
 
 	init: function(fovy, aspect, near, far) {
+		this.fovy = fovy;
+		this.aspect = aspect;
+		this.near = near;
+		this.far = far;
 		this.mat = mat4.create();
-		this.set(fovy, aspect, near, far);
+		this.computeMatrix();
 	},
 
-	set: function(fovy, aspect, near, far) {
-		mat4.perspective(this.mat, fovy, aspect, near, far);
+	computeMatrix: function() {
+		mat4.perspective(this.mat, this.fovy, this.aspect, this.near, this.far);
+	},
+
+	setAspect: function() {
+		this.aspect = canva.clientWidth / canva.clientHeight;
 	},
 
 	getMatrix: function() {
+		this.computeMatrix();
 		return this.mat;
 	}
 }

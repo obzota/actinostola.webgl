@@ -84,8 +84,8 @@ function setBasicParam(gl) {
 	gl.enable(gl.CULL_FACE);
 
 	// Drawing points : smoothing and size
-	gl.enable(0x8642); // point size change
-	gl.enable(0x0B10); // smooth points
+	// gl.enable(0x8642); // point size change
+	// gl.enable(0x0B10); // smooth points
 
 	// set ground color black
 	gl.clearColor(0.0, 0.0, 0.0, 1.0);

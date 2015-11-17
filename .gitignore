@@ -1,0 +1,5 @@
+js/unused/*
+shader/*
+
+objects/cube.obj
+objects/sphere.obj

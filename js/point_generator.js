@@ -1,3 +1,7 @@
+/* * * * * * * * * * * * * * * * * * * * * 
+	CLASS 	Point
+ * * * * * * * * * * * * * * * * * * * * */
+
 var Point = function (x, y, z) {
 	this.x = x;
 	this.y = y;
@@ -26,13 +30,46 @@ Point.prototype = {
 	}
 }
 
-var PointGenerator = {
+/* * * * * * * * * * * * * * * * * * * * * 
+	CLASS 	Cloud
+ * * * * * * * * * * * * * * * * * * * * */
 
-	sphericalPoint: function (radius, center) {
+var Cloud = function(center, radius, color, speeds, delays) {
+	this.center = vec3.create();
+	vec3.set(this.center, center.x, center.y, center.z);
+	this.speeds = speeds;
+	this.delays = delays;
+	this.radius = radius;
+	this.color = color;
+	this.size = speeds.length;
+
+	this.speedsBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.speedsBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, this.speeds, gl.STATIC_DRAW);
+
+	this.delaysBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.delaysBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, this.delays, gl.STATIC_DRAW);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * 
+	OBJ 	PointGenerator
+ * * * * * * * * * * * * * * * * * * * * */
+
+var PointGenerator = {
+	vitesse: 3,
+
+	localSphericalPoint: function (radius, center) {
 		var point = this.unitSphericalPoint();
-		return new Point(point.x*radius+center.x,
-			 			point.y*radius+center.y,
-			 				point.z*radius+center.z);
+		point.mult(radius);
+		point.add(center);
+		return point;
+	},
+
+	sphericalPoint: function (radius) {
+		var point = this.unitSphericalPoint();
+		point.mult(radius);
+		return point;
 	},
 
 	unitSphericalPoint: function () {
@@ -49,5 +86,26 @@ var PointGenerator = {
 		var z = (x0*x0 + x3*x3 - x1*x1 - x2*x2) / normQuad;
 		return new Point(x, y, z);
 	},
+
+	generateCloud: function (center, radius, color, objects) {
+		var speeds = new Float32Array(objects.length);
+		var delays = new Float32Array(objects.length);
+		for (var i = 0; i < objects.length; i++) {
+			var p = this.randomParameter(objects[i].size, objects[i].timeElapsed);
+			speeds[i] = p[0];
+			delays[i] = p[1];
+		};
+		return new Cloud(center, radius, color, speeds, delays);
+	},
+
+	randomParameter: function(size, timeElapsed) {
+		if (timeElapsed) {
+			var speed = (2 - Math.tanh(timeElapsed/this.deathTime));
+		} else {
+			var speed = 1;
+		}
+		var delay = Math.random() * 10000;
+		return [speed, delay];
+	} 
 
 }
