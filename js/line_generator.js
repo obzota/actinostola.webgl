@@ -45,7 +45,7 @@ var BezierGenerator = {
 	RootBezier: function (p3) {
 		var size = 100;
 
-		var rad = p.radius();
+		var rad = p3.radius();
 		var rat = 0.5;
 
 		var p0 = new Point(0,0,0);

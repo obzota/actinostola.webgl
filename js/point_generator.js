@@ -34,18 +34,19 @@ Point.prototype = {
 	CLASS 	Cloud
  * * * * * * * * * * * * * * * * * * * * */
 
-var Cloud = function(center, radius, color, speeds, delays) {
+var Cloud = function(center, radius, color, sizes, delays) {
 	this.center = vec3.create();
 	vec3.set(this.center, center.x, center.y, center.z);
-	this.speeds = speeds;
+	this.sizes = sizes;
 	this.delays = delays;
 	this.radius = radius;
 	this.color = color;
-	this.size = speeds.length;
+	this.size = sizes.length;
+	this.focus = false;
 
-	this.speedsBuffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, this.speedsBuffer);
-	gl.bufferData(gl.ARRAY_BUFFER, this.speeds, gl.STATIC_DRAW);
+	this.sizesBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, this.sizesBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, this.sizes, gl.STATIC_DRAW);
 
 	this.delaysBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.delaysBuffer);
@@ -57,7 +58,6 @@ var Cloud = function(center, radius, color, speeds, delays) {
  * * * * * * * * * * * * * * * * * * * * */
 
 var PointGenerator = {
-	vitesse: 3,
 
 	localSphericalPoint: function (radius, center) {
 		var point = this.unitSphericalPoint();
@@ -88,24 +88,24 @@ var PointGenerator = {
 	},
 
 	generateCloud: function (center, radius, color, objects) {
-		var speeds = new Float32Array(objects.length);
+		var sizes = new Float32Array(objects.length);
 		var delays = new Float32Array(objects.length);
 		for (var i = 0; i < objects.length; i++) {
-			var p = this.randomParameter(objects[i].size, objects[i].timeElapsed);
-			speeds[i] = p[0];
-			delays[i] = p[1];
+			p = this.randomParameter(objects[i].size);
+			sizes[i] = p.size;
+			delays[i] = p.delay;
 		};
-		return new Cloud(center, radius, color, speeds, delays);
+		return new Cloud(center, radius, color, sizes, delays);
 	},
 
-	randomParameter: function(size, timeElapsed) {
-		if (timeElapsed) {
-			var speed = (2 - Math.tanh(timeElapsed/this.deathTime));
-		} else {
-			var speed = 1;
-		}
-		var delay = Math.random() * 10000;
-		return [speed, delay];
+	randomParameter: function(size) {
+		var p = {speed: 1.0, delay: 0.0, size: 1.0};
+		if (size) {
+			p.size = Math.floor(Math.log10(size));
+			p.size = Math.max(1.0, p.size);
+		};
+		p.delay = Math.random() * 10000;
+		return p;
 	} 
 
 }

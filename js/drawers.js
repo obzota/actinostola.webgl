@@ -84,8 +84,11 @@ var CloudDrawer = {
 		this.uProjectionLoc = gl.getUniformLocation(program, "u_Projection");
 		this.uCameraLoc = gl.getUniformLocation(program, "u_Camera");
 		this.uColorLoc = gl.getUniformLocation(program, "u_Color");
+
 		this.uRadiusLoc = gl.getUniformLocation(program, "u_Radius");
-		this.aSpeedLoc = gl.getAttribLocation(program, "a_Speed");
+		this.uFocus = gl.getUniformLocation(program, "u_Focus"); // toggle if focus is on the object
+
+		this.aSizeLoc = gl.getAttribLocation(program, "a_Size");
 		this.aDelayLoc = gl.getAttribLocation(program, "a_Delay");
 
 		console.log(this);
@@ -102,15 +105,18 @@ var CloudDrawer = {
 	},
 
 	draw: function (cloud, time) {
+		// console.log(cloud);
 		gl.uniform1f(this.uTimeLoc, time);
 		gl.uniform1f(this.uRadiusLoc, cloud.radius);
 		gl.uniform3fv(this.uPositionLoc, cloud.center);
 		gl.uniform4fv(this.uColorLoc, cloud.color);
 
-		if (this.aSpeedLoc != -1) {
-			gl.bindBuffer(gl.ARRAY_BUFFER, cloud.speedsBuffer);
-			gl.enableVertexAttribArray(this.aSpeedLoc);
-			gl.vertexAttribPointer(this.aSpeedLoc, 1, gl.FLOAT, false, 0, 0);
+		gl.uniform1i(this.uFocus, cloud.focus);
+
+		if (this.aSizeLoc != -1) {
+			gl.bindBuffer(gl.ARRAY_BUFFER, cloud.sizesBuffer);
+			gl.enableVertexAttribArray(this.aSizeLoc);
+			gl.vertexAttribPointer(this.aSizeLoc, 1, gl.FLOAT, false, 0, 0);
 		};
 		if (this.aDelayLoc != -1) {
 			gl.bindBuffer(gl.ARRAY_BUFFER, cloud.delaysBuffer);

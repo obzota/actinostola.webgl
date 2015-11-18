@@ -5,13 +5,21 @@ var Scene = {
 	meshProgram: null,
 	lineProgram: null,
 	cloudProgram: null,
-	pointProgram: null
+	pointProgram: null,
+
+	mouse: {
+		x0: 0,
+		y0: 0,
+		x:0,
+		y:0
+	}
 };
+
+var canvasId = 'glcanvas';
+var canva = document.getElementById(canvasId);
 
 function main () {
 
-	var canvasId = 'glcanvas';
-	canva = document.getElementById(canvasId);
 	gl = setupGLFromId(canvasId);
 	setBasicParam(gl);
 
@@ -25,7 +33,7 @@ function main () {
 
 	// init viewport
 	var aspect = canva.clientWidth / canva.clientHeight;
-	Camera.init(3, 3, 0,    0,0,3,    0,0,1);
+	Camera.init(3, 3, 0,    0,0,0,    0,0,1);
 	Projection.init(1.0, aspect, 0.2, 30);
 
 	// initialize the drawers
@@ -65,30 +73,56 @@ function main () {
 			Drawing Bezier
 	 * * * * * * * * * * * * * * * * * * * * * * * * */
 	var origin = new Point(0,0,0);
-	var p0 = new Point(0,0,3);
-
+	var p0 = new Point(0,0,0);
+	var points = []; 
 	gl.useProgram(Scene.lineProgram);
-	for (var i = 0; i < 10; i++) {
-		var p = PointGenerator.sphericalPoint(5);
-		Scene.lines[i] = BezierGenerator.LinkBezier(p0, p); 
+	for (var i = 0; i < 5; i++) {
+		var p = PointGenerator.sphericalPoint(2);
+		Scene.lines[i] = BezierGenerator.RootBezier(p);
+		points.push(p);
+		for (var j = 0; j < 5; j++) {
+			var q = PointGenerator.sphericalPoint(4);
+			Scene.lines.push(BezierGenerator.LinkBezier(p, q));
+		}
 	};
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * *
 			Drawing Cloud
 	 * * * * * * * * * * * * * * * * * * * * * * * * */
-	var objects = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+	// var objects = [{size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {}, {}, {},
+	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
+	//  	{}, {}, {}, {}, {}, {}, {}, {}];
+	var objects = [{size:0}, {size:0}, {size:0}, {size:0}, {size:0},
+	{size:0}, {size:0}, {size:0}, {size:0}, {size:0}];
+
+	 for (var i = 0; i < objects.length; i++) {
+	 	objects[i].size = Math.pow(10, Math.floor(Math.random()*15+1));
+	 };
+	 console.log(objects);
 
 	gl.useProgram(Scene.cloudProgram);
-	var cloud = PointGenerator.generateCloud(p0, 0.4, Colors.red, objects);
+	var cloud = PointGenerator.generateCloud(p0, 0.3, Colors.red, objects);
+	for (var i = points.length - 1; i >= 0; i--) {
+		var c = PointGenerator.generateCloud(points[i], 0.3, Colors.red, objects);
+		c.focus = true;
+		Scene.clouds.push(c);
+	};
+	cloud.focus = true;
 	Scene.clouds[0] = cloud;
 
-	render();
+	animloop();
 }
 
 var init_time = (new Date()).getTime();
+
 function render() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
 	var t = ((new Date()).getTime() - init_time) / 1000.0;
+	handleEvents();
 
 	if (Scene.lines) {
 		gl.useProgram(LineDrawer.program);
@@ -135,7 +169,7 @@ window.requestAnimFrame = (function(){
           };
 })();
 
-(function animloop(){
+function animloop(){
   requestAnimFrame(animloop);
   render();
-})();
+}
