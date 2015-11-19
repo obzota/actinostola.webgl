@@ -7,6 +7,9 @@ def incrHeader(header):
 	return header + "    "
 
 def printAddString(string):
+	string = string.replace("\\\'", "\'")
+	string = string.replace("\'", "\\\'")
+	string = string.replace("\n", "")
 	string = "+ \'" + string + "\'"
 	print string
 
@@ -20,7 +23,11 @@ def printAttrib(field, value, last):
 def printFile(filename, last):
 	printAddString("{")
 	printAttrib("filename", filename, False)
-	printAttrib("size", str(os.path.getsize(filename)), True)
+	try:
+		size = str(os.path.getsize(filename))
+	except Exception, e:
+		size = "0"
+	printAttrib("size", size, True)
 	if last:
 		printAddString("}")
 	else:
