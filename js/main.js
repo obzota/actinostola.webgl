@@ -1,4 +1,4 @@
-var Scene = { 
+var Scene = {
 	lines: [],
 	meshes: [],
 	clouds: [],
@@ -11,7 +11,8 @@ var Scene = {
 		x0: 0,
 		y0: 0,
 		x:0,
-		y:0
+		y:0,
+		dscroll: 0
 	}
 };
 
@@ -34,7 +35,7 @@ function main () {
 	// init viewport
 	var aspect = canva.clientWidth / canva.clientHeight;
 	Camera.init(3, 3, 0,    0,0,0,    0,0,1);
-	Projection.init(1.0, aspect, 0.2, 30);
+	Projection.init(1.0, aspect, 0.2, 100);
 
 	// initialize the drawers
 	Drawer.init(Scene.meshProgram);
@@ -52,6 +53,10 @@ function main () {
 	PointDrawer.init(Scene.pointProgram);
 	PointDrawer.setViewport(Camera, Projection);
 
+
+
+
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * *
 			Drawing a sphere
 	 * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -59,12 +64,15 @@ function main () {
 	// mySphere = Builder.build(sphereObj, [0,0,3], 2, Colors.blue);
 	// Drawer.drawObject(mySphere);
 
+
+
+
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * *
 			gettin' data
 	 * * * * * * * * * * * * * * * * * * * * * * * * */
-	// var archi = JSON.parse(data);
-	// console.log(archi);
-
+	archi = JSON.parse(data);
+	console.log(archi);
 
 
 
@@ -72,22 +80,29 @@ function main () {
 	/* * * * * * * * * * * * * * * * * * * * * * * * *
 			Drawing Bezier
 	 * * * * * * * * * * * * * * * * * * * * * * * * */
-	var origin = new Point(0,0,0);
-	var p0 = new Point(0,0,0);
-	var points = []; 
-	gl.useProgram(Scene.lineProgram);
-	for (var i = 0; i < 5; i++) {
-		var p = PointGenerator.sphericalPoint(2);
-		Scene.lines[i] = BezierGenerator.RootBezier(p);
-		points.push(p);
-		for (var j = 0; j < 5; j++) {
-			var q = PointGenerator.sphericalPoint(4);
-			Scene.lines.push(BezierGenerator.LinkBezier(p, q));
-		}
-	};
+	// var origin = vec3.create();
+	// var p0 = vec3.create();
+	// // var origin = new Point(0,0,0);
+	// // var p0 = new Point(0,0,0);
+	// var points = [];
+	// gl.useProgram(Scene.lineProgram);
+	// for (var i = 0; i < 5; i++) {
+	// 	var p = PointGenerator.sphericalPoint(2);
+	// 	Scene.lines.push(BezierGenerator.rootBezier(p, Colors.white, Colors.blue));
+	// 	points.push(p);
+	// 	for (var j = 0; j < 5; j++) {
+	// 		var q = PointGenerator.sphericalPointWithinRange(p, 4);
+	// 		Scene.lines.push(BezierGenerator.complexLinkBezier(p, q));
+	// 		points.push(q);
+	// 	}
+	// };
+
+
+
+
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * *
-			Drawing Cloud
+			Drawing Clouds
 	 * * * * * * * * * * * * * * * * * * * * * * * * */
 	// var objects = [{size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {size:0}, {}, {}, {},
 	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
@@ -96,29 +111,92 @@ function main () {
 	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
 	// 	{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {},
 	//  	{}, {}, {}, {}, {}, {}, {}, {}];
-	var objects = [{size:0}, {size:0}, {size:0}, {size:0}, {size:0},
-	{size:0}, {size:0}, {size:0}, {size:0}, {size:0}];
+	// var objects = [{size:0}, {size:0}, {size:0}, {size:0}, {size:0},
+	// {size:0}, {size:0}, {size:0}, {size:0}, {size:0}];
 
-	 for (var i = 0; i < objects.length; i++) {
-	 	objects[i].size = Math.pow(10, Math.floor(Math.random()*15+1));
-	 };
-	 console.log(objects);
+	// for (var i = 0; i < objects.length; i++) {
+	// 	objects[i].size = Math.pow(10, Math.floor(Math.random()*15+1));
+	// };
+	// console.log(objects);
 
-	gl.useProgram(Scene.cloudProgram);
-	var cloud = PointGenerator.generateCloud(p0, 0.3, Colors.red, objects);
-	for (var i = points.length - 1; i >= 0; i--) {
-		var c = PointGenerator.generateCloud(points[i], 0.3, Colors.red, objects);
-		c.focus = true;
-		Scene.clouds.push(c);
-	};
-	cloud.focus = true;
-	Scene.clouds[0] = cloud;
+	// gl.useProgram(Scene.cloudProgram);
+	// var cloud = PointGenerator.generateCloud(p0, 0.3, Colors.red, objects);
+	// Scene.clouds[0] = cloud;
 
+	// for (var i = points.length - 1; i >= 0; i--) {
+	// 	var c = PointGenerator.generateCloud(points[i], 0.3, Colors.red, objects);
+	// 	// c.focus = true;
+	// 	Scene.clouds.push(c);
+	// };
+	// cloud.focus = true;
+
+
+
+
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * *
+			Mini Root
+	* * * * * * * * * * * * * * * * * * * * * * * * */
+	 // var root = {
+	 // 	depth: 0,
+	 // 	Files: [
+	 // 		{size:100000}, {size:10000}, {size:1000}, {size:1000}
+		// ],
+		// Folders: []
+	 // };
+	 // var f1 = {
+	 // 	depth: 1,
+	 // 	Files: [
+	 // 		{size:100000}, {size:10000}, {size:1000}, {size:1000}
+		// ],
+		// Folders: []
+	 // };
+	 // var f2 = {
+	 // 	depth: 1,
+	 // 	Files: [
+	 // 		{size:100000}, {size:10000}, {size:1000}, {size:1000}
+		// ],
+		// Folders: []
+	 // };
+	 // var f11 = {
+	 // 	depth: 2,
+	 // 	Files: [
+	 // 		{size:100000}, {size:10000}, {size:1000}, {size:1000}
+		// ],
+		// Folders: []
+	 // };
+	 // var f12 = {
+	 // 	depth: 2,
+	 // 	Files: [
+	 // 		{size:100000}, {size:10000}, {size:1000}, {size:1000}
+		// ],
+		// Folders: []
+	 // };
+	 // var f13 = {
+	 // 	depth: 2,
+	 // 	Files: [
+	 // 		{size:100000}, {size:10000}, {size:1000}, {size:1000}
+		// ],
+		// Folders: []
+	 // };
+	 // f1.Folders.push(f11);
+	 // f1.Folders.push(f12);
+	 // f1.Folders.push(f13);
+	 // root.Folders.push(f1);
+	 // root.Folders.push(f2);
+	 // TreeManager.build(root);
+
+
+
+	TreeManager.build(archi);
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * *
+			Launching Animation
+	* * * * * * * * * * * * * * * * * * * * * * * * */
 	animloop();
 }
 
 var init_time = (new Date()).getTime();
-
 function render() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
 	var t = ((new Date()).getTime() - init_time) / 1000.0;

@@ -30,6 +30,11 @@ var Camera = {
 		this.wasChanged = true;
 	},
 
+	setFocus: function(center) {
+		vec3.copy(this.center, center);
+		this.computeEye();
+	},
+
 	computeEye: function() {
 		vec3.normalize(this.localEye, this.localEye);
 		vec3.scaleAndAdd(this.eye, this.center, this.localEye, this.radius);
@@ -44,8 +49,9 @@ var Camera = {
 	},
 
 	changeRadius: function(dscroll) {
-		this.radius *= 1.0;
-		computeEye();
+		this.radius *= (100.0 + dscroll) / 100.0;
+		if (this.radius < 0.1) {this.radius = 0.1};
+		this.computeEye();
 	},
 
 	getMatrix: function() {

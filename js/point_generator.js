@@ -1,48 +1,17 @@
-/* * * * * * * * * * * * * * * * * * * * * 
-	CLASS 	Point
- * * * * * * * * * * * * * * * * * * * * */
-
-var Point = function (x, y, z) {
-	this.x = x;
-	this.y = y;
-	this.z = z;
-}
-
-Point.prototype = {
-	add: function(b) {
-		this.x += b.x;
-		this.y += b.y;
-		this.z += b.z;
-	},
-
-	mult: function(scal) {
-		this.x *= scal;
-		this.y *= scal;
-		this.z *= scal;
-	},
-
-	radius: function() {
-		return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
-	},
-
-	isOrigin: function() {
-		return this.x == 0 && this.y == 0 && this.z == 0;
-	}
-}
-
-/* * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * *
 	CLASS 	Cloud
  * * * * * * * * * * * * * * * * * * * * */
 
-var Cloud = function(center, radius, color, sizes, delays) {
+var Cloud = function(center, radius, color, sizes, delays, depth) {
 	this.center = vec3.create();
-	vec3.set(this.center, center.x, center.y, center.z);
+	vec3.copy(this.center, center);
 	this.sizes = sizes;
 	this.delays = delays;
 	this.radius = radius;
 	this.color = color;
 	this.size = sizes.length;
-	this.focus = false;
+	this.focus = true;
+	this.depth = depth;
 
 	this.sizesBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.sizesBuffer);
@@ -51,25 +20,40 @@ var Cloud = function(center, radius, color, sizes, delays) {
 	this.delaysBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.delaysBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, this.delays, gl.STATIC_DRAW);
+
+	this.children = [];
 }
 
-/* * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * *
 	OBJ 	PointGenerator
  * * * * * * * * * * * * * * * * * * * * */
 
 var PointGenerator = {
 
-	localSphericalPoint: function (radius, center) {
+	localSphericalPoint: function (center, radius) {
 		var point = this.unitSphericalPoint();
-		point.mult(radius);
-		point.add(center);
+		vec3.scale(point, point, radius);
+		vec3.add(point, point, center);
 		return point;
 	},
 
 	sphericalPoint: function (radius) {
 		var point = this.unitSphericalPoint();
-		point.mult(radius);
+		vec3.scale(point, point, radius);
 		return point;
+	},
+
+	sphericalPointWithinRange: function (center, radius) {
+		var res = this.sphericalPoint(radius);
+		console.log(res);
+		console.log(center);
+		console.log(radius);
+		var dist = vec3.distance(res, center);
+		while( dist > 0.7 * radius) {
+			res = this.sphericalPoint(radius);
+			dist = vec3.distance(res, center);
+		}
+		return res;
 	},
 
 	unitSphericalPoint: function () {
@@ -84,10 +68,13 @@ var PointGenerator = {
 		var x = 2 * (x1 * x3 + x0 * x2) / normQuad;
 		var y = 2 * (x2 * x3 - x0 * x1) / normQuad;
 		var z = (x0*x0 + x3*x3 - x1*x1 - x2*x2) / normQuad;
-		return new Point(x, y, z);
+
+		var p = vec3.create();
+		vec3.set(p, x, y, z);
+		return p;
 	},
 
-	generateCloud: function (center, radius, color, objects) {
+	generateCloud: function (center, radius, color, objects, depth) {
 		var sizes = new Float32Array(objects.length);
 		var delays = new Float32Array(objects.length);
 		for (var i = 0; i < objects.length; i++) {
@@ -95,7 +82,7 @@ var PointGenerator = {
 			sizes[i] = p.size;
 			delays[i] = p.delay;
 		};
-		return new Cloud(center, radius, color, sizes, delays);
+		return new Cloud(center, radius, color, sizes, delays, depth);
 	},
 
 	randomParameter: function(size) {
@@ -106,6 +93,6 @@ var PointGenerator = {
 		};
 		p.delay = Math.random() * 10000;
 		return p;
-	} 
+	}
 
 }

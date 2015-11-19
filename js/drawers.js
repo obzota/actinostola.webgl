@@ -33,7 +33,7 @@ var Drawer = {
 
 		gl.drawArrays(gl.POINTS, 0, mesh.vertex.length/3);
 	}
-} 
+}
 
 var LineDrawer = {
 	init: function(program) {
@@ -41,7 +41,8 @@ var LineDrawer = {
 		this.aPositionLoc = gl.getAttribLocation(program, "a_Position");
 		this.uProjectionLoc = gl.getUniformLocation(program, "u_Projection");
 		this.uCameraLoc = gl.getUniformLocation(program, "u_Camera");
-		this.uColorLoc = gl.getUniformLocation(program, "u_Color");
+		this.uColorOriginLoc = gl.getUniformLocation(program, "u_Color_Origin");
+		this.uColorDestLoc = gl.getUniformLocation(program, "u_Color_Dest");
 		this.uMaxIndexLoc = gl.getUniformLocation(program, "u_MaxIndex");
 		this.aIndexLoc = gl.getAttribLocation(program, "a_Index");
 	},
@@ -66,6 +67,8 @@ var LineDrawer = {
 		gl.enableVertexAttribArray(this.aIndexLoc);
 		gl.vertexAttribPointer(this.aIndexLoc, 1, gl.FLOAT, false, 0, 0);
 
+		gl.uniform3fv(this.uColorOriginLoc, line.color0);
+		gl.uniform3fv(this.uColorDestLoc, line.color1);
 		gl.uniform1f(this.uMaxIndexLoc, line.indices.length);
 
 		gl.drawArrays(gl.LINE_STRIP, 0, line.vertex.length/3);
@@ -123,7 +126,7 @@ var CloudDrawer = {
 			gl.enableVertexAttribArray(this.aDelayLoc);
 			gl.vertexAttribPointer(this.aDelayLoc, 1, gl.FLOAT, false, 0, 0);
 		}
-		
+
 		gl.drawArrays(gl.POINTS, 0, cloud.size);
 	}
 }
