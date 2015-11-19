@@ -45,9 +45,6 @@ var PointGenerator = {
 
 	sphericalPointWithinRange: function (center, radius) {
 		var res = this.sphericalPoint(radius);
-		console.log(res);
-		console.log(center);
-		console.log(radius);
 		var dist = vec3.distance(res, center);
 		while( dist > 0.7 * radius) {
 			res = this.sphericalPoint(radius);

@@ -72,6 +72,7 @@
 		uniform mat4 u_Camera;
 
 		uniform float u_MaxIndex;
+		uniform float u_Depth;
 		uniform vec3 u_Color_Origin;
 		uniform vec3 u_Color_Dest;
 
@@ -81,7 +82,7 @@
 			gl_Position = u_Projection * u_Camera * vec4(a_Position, 1.0);
 			float ratio = a_Index / u_MaxIndex;
 			vec3 tmp_Color = u_Color_Dest * (ratio) + u_Color_Origin * (1.0-ratio);
-			tmp_Color = tmp_Color * 0.5 + vec3(1.0, 1.0, 1.0) * 0.5;
+			tmp_Color = (tmp_Color * 0.9 * (1.0-ratio) + vec3(1.0, 1.0, 1.0) * 0.1);
 			v_Color = vec4(tmp_Color, 1.0);
 		}
 	</script>

@@ -64,8 +64,6 @@ var Camera = {
 	},
 
 	mouseMoveUpdate: function(dx, dy) {
-		// console.log("dx : " + dx + " - dy : " + dy);
-		// console.log(this.localEye);
 		var toCenter = vec3.create();
 		vec3.negate(toCenter, this.localEye);
 
@@ -73,17 +71,12 @@ var Camera = {
 		vec3.cross(side, toCenter, this.up);
 		vec3.normalize(side, side); // should be normal but who knows
 
-		// console.log(toCenter);
-		// console.log(this.up);
-		// console.log(side);
-
-		/* now the local system is (toCenter, up, side) 
+		/* now the local system is (toCenter, up, side)
 			As the rotation angle is little we approximate the new position
 			with a vector in the plane of the camera (up, side) */
 		vec3.scaleAndAdd(this.localEye, this.localEye, side, -dx/100); // update local x-axis
 		vec3.scaleAndAdd(this.localEye, this.localEye, this.up, dy/100); // update local y-axis
 		this.computeEye();
-		// console.log(this.localEye);
 
 		// calculating the new up of camera
 		// this.computeUp();

@@ -20,7 +20,6 @@ var Drawer = {
 	},
 
 	drawObject: function (mesh) {
-		console.log(mesh);
 		gl.uniform4fv(this.uColorLoc, mesh.color);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, mesh.vertexBuffer);
@@ -58,7 +57,6 @@ var LineDrawer = {
 	},
 
 	drawLine: function (line) {
-		// console.log(line);
 		gl.bindBuffer(gl.ARRAY_BUFFER, line.vertexBuffer);
 		gl.enableVertexAttribArray(this.aPositionLoc);
 		gl.vertexAttribPointer(this.aPositionLoc, 3, gl.FLOAT, false, 0, 0);
@@ -93,8 +91,6 @@ var CloudDrawer = {
 
 		this.aSizeLoc = gl.getAttribLocation(program, "a_Size");
 		this.aDelayLoc = gl.getAttribLocation(program, "a_Delay");
-
-		console.log(this);
 	},
 
 	setViewport: function (camera, projection) {
@@ -108,7 +104,6 @@ var CloudDrawer = {
 	},
 
 	draw: function (cloud, time) {
-		// console.log(cloud);
 		gl.uniform1f(this.uTimeLoc, time);
 		gl.uniform1f(this.uRadiusLoc, cloud.radius);
 		gl.uniform3fv(this.uPositionLoc, cloud.center);
@@ -151,8 +146,6 @@ var PointDrawer = {
 	},
 
 	draw: function (point, time) {
-		console.log(point);
-
 		gl.uniform4fv(this.uColorLoc, [0.0, 1.0, 0.0, 1.0]);
 
 		var tmpbuffer = gl.createBuffer();
