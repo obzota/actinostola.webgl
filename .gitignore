@@ -1,5 +1,5 @@
 js/unused/*
 shader/*
-
+*.bak
 objects/cube.obj
 objects/sphere.obj

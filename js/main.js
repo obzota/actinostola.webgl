@@ -61,9 +61,12 @@ function main () {
 			Drawing a sphere
 	 * * * * * * * * * * * * * * * * * * * * * * * * */
 	// gl.useProgram(Scene.meshProgram);
-	// mySphere = Builder.build(sphereObj, [0,0,3], 2, Colors.blue);
-	// Drawer.drawObject(mySphere);
-
+	// mySphere = Builder.build(sphereObj, [0,0,0], 2, Colors.getRandomColor());
+	// Scene.meshes.push(mySphere);
+	// mySphere = Builder.build(sphereObj, [0,0,0], 4, Colors.getRandomColor());
+	// Scene.meshes.push(mySphere);
+	// mySphere = Builder.build(sphereObj, [0,0,0], 8, Colors.getRandomColor());
+	// Scene.meshes.push(mySphere);
 
 
 
@@ -205,25 +208,22 @@ function render() {
 	if (Scene.lines) {
 		gl.useProgram(LineDrawer.program);
 		LineDrawer.setViewport(Camera, Projection);
-		for (var i = 0; i < Scene.lines.length; i++) {
-			LineDrawer.drawLine(Scene.lines[i]);
-		};
+		TreeManager.renderLinks(archi);
 	}
 
 	if (Scene.clouds) {
 		gl.useProgram(CloudDrawer.program);
 		CloudDrawer.setViewport(Camera, Projection);
-		for (var i = 0; i < Scene.clouds.length; i++) {
-			CloudDrawer.draw(Scene.clouds[i], t);
-		}
+		TreeManager.renderClouds(archi, t);
 	}
 
-	// if (Scene.meshes) {
-	// 	gl.useProgram(Scene.meshProgram);
-	// 	for (var i = 0; i < Scene.meshes.length; i++) {
-	// 		Drawer.drawObject(Scene.meshes[i]);
-	// 	};
-	// }
+	if (Scene.meshes && Scene.enableMesh) {
+		gl.useProgram(Scene.meshProgram);
+		Drawer.setViewport(Camera, Projection);
+		for (var i = 0; i < Scene.meshes.length; i++) {
+			Drawer.drawObject(Scene.meshes[i]);
+		};
+	}
 }
 
 function resize() {

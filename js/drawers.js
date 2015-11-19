@@ -6,13 +6,15 @@ var Drawer = {
 		this.aNormalLoc =  gl.getAttribLocation(program, "a_Normal"),
 		this.uProjectionLoc = gl.getUniformLocation(program, "u_Projection"),
 		this.uCameraLoc = gl.getUniformLocation(program, "u_Camera"),
-		this.uColorLoc = gl.getUniformLocation(program, "u_Color")
+		this.uColorLoc = gl.getUniformLocation(program, "u_Color"),
+		this.uPositionEyeLoc = gl.getUniformLocation(program, "u_PositionEye")
 	},
 
 	setViewport: function (camera, projection) {
 		gl.useProgram(this.program);
 		gl.uniformMatrix4fv(this.uCameraLoc, false, camera.getMatrix());
-		gl.uniformMatrix4fv(this.uProjectionLoc, false, projection.getMatrix())
+		gl.uniformMatrix4fv(this.uProjectionLoc, false, projection.getMatrix());
+		gl.uniform3fv(this.uPositionEyeLoc, camera.eye);
 	},
 
 	setProgram: function () {
@@ -20,7 +22,7 @@ var Drawer = {
 	},
 
 	drawObject: function (mesh) {
-		gl.uniform4fv(this.uColorLoc, mesh.color);
+		gl.uniform3fv(this.uColorLoc, mesh.color);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, mesh.vertexBuffer);
 		gl.enableVertexAttribArray(this.aPositionLoc);
@@ -30,7 +32,7 @@ var Drawer = {
 		gl.enableVertexAttribArray(this.aNormalLoc);
 		gl.vertexAttribPointer(this.aNormalLoc, 3, gl.FLOAT, false, 0, 0);
 
-		gl.drawArrays(gl.POINTS, 0, mesh.vertex.length/3);
+		gl.drawArrays(gl.TRIANGLES, 0, mesh.vertex.length/3);
 	}
 }
 
@@ -56,7 +58,7 @@ var LineDrawer = {
 		gl.useProgram(this.program);
 	},
 
-	drawLine: function (line) {
+	draw: function (line) {
 		gl.bindBuffer(gl.ARRAY_BUFFER, line.vertexBuffer);
 		gl.enableVertexAttribArray(this.aPositionLoc);
 		gl.vertexAttribPointer(this.aPositionLoc, 3, gl.FLOAT, false, 0, 0);

@@ -18,8 +18,8 @@
 		varying vec3 v_Position;
 
 		void main(void) {
-			vec3 posLux = vec3(0, 0, 10);
-			vec3 posEye = vec3(10, 10, 10);
+			vec3 posLux = vec3(0, 0, 2);
+			vec3 posEye = u_PositionEye;
 
 			vec3 L = normalize(posLux - v_Position);
 			vec3 V = normalize(posEye - v_Position);
@@ -38,14 +38,14 @@
 			vec3 color = ia + lambertian * id + specular * is;
 
 			gl_FragColor = v_Color * vec4(color, 1.0);
-			gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+			// gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 		}
 	</script>
 	<script type="x-shader/x-vertex" id='vert_shader'>
 		attribute vec3 a_Position;
 		attribute vec3 a_Normal;
 
-		uniform vec4 u_Color;
+		uniform vec3 u_Color;
 		uniform mat4 u_Projection;
 		uniform mat4 u_Camera;
 
@@ -55,7 +55,7 @@
 
 		void main(void) {
 			gl_Position = u_Projection * u_Camera * vec4(a_Position, 1.0);
-			v_Color = u_Color;
+			v_Color = vec4(u_Color, 1.0);
 			v_Normal = a_Normal;
 			v_Position = a_Position;
 		}
