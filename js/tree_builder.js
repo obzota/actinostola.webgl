@@ -1,20 +1,17 @@
 var TreeManager = {
 
-	maxDepth: 14,
+	maxDepth: 0,
 	root: null,
 
 	build: function(root) {
 		var origin = vec3.create();
 		var white = vec3.create(); vec3.set(white, 1.0, 1.0, 1.0);
-		// creating and binding the cloud
+
+		// creating objects
 		var cloud = PointGenerator.generateCloud(origin, 0.3, white, root.Files, root.depth);
-		cloud.name = root.name;
-		// Scene.clouds.push(cloud);
-		root.cloud = cloud;
-		// creating a sphere
 		var sphere = Builder.build(sphereObj, origin, 0.1, white);
-		Scene.meshes.push(sphere);
 		root.links = [];
+
 		// recursively creating children
 		for (var i = 0; i < root.Folders.length; i++) {
 			var color = Colors.getRandomColor(white);
@@ -25,18 +22,21 @@ var TreeManager = {
 			root.links.push(bez);
 		};
 
+		// settings objects
+		root.cloud = cloud;
+		root.sphere = sphere;
 		root.parent = null;
+		this.root = root;
 	},
 
 	recBuild: function(parent, center, node, color) {
-		// if (node.depth > this.maxDepth) {this.maxDepth = node.depth};
+		if (node.depth > this.maxDepth) {this.maxDepth = node.depth};
 		// creating the cloud
 		var cloud = PointGenerator.generateCloud(center, 0.3, color, node.Files, node.depth);
 		cloud.name = node.name;
 		// Scene.clouds.push(cloud);
 		// creating a sphere
 		var sphere = Builder.build(sphereObj, center, 0.1, color);
-		Scene.meshes.push(sphere);
 		// rec
 		node.links = [];
 		for (var i = 0; i < node.Folders.length; i++) {
@@ -52,24 +52,97 @@ var TreeManager = {
 		node.parent = parent;
 	},
 
-	renderClouds: function(root, time) {
+	renderClouds: function(time) {
+		this.recRenderClouds(this.root, time);
+	},
+
+	recRenderClouds: function(root, time) {
 		CloudDrawer.draw(root.cloud, time);
 		for (var i = 0; i < root.Folders.length; i++) {
-			this.renderClouds(root.Folders[i], time);
+			this.recRenderClouds(root.Folders[i], time);
 		};
 	},
 
-	renderLinks: function(root) {
+	renderLinks: function() {
+		this.recRenderLinks(this.root);
+	},
+
+	recRenderLinks: function(root) {
 		for (var i = 0; i < root.links.length; i++) {
 			LineDrawer.draw(root.links[i]);
 		};
 		for (var i = 0; i < root.Folders.length; i++) {
-			this.renderLinks(root.Folders[i]);
+			this.recRenderLinks(root.Folders[i]);
 		};
 	},
 
-	randomiseColors: function(root) {
+	randomiseColors: function() {
+		this.recRandomiseColors(this.root, Colors.white);
+	},
 
+	recRandomiseColors: function(root, color) {
+		for (var i = 0; i < root.Folders.length; i++) {
+			var newcolor = Colors.getRandomColor(color);
+			root.links[i].color0 = color;
+			root.links[i].color1 = newcolor;
+			this.recRandomiseColors(root.Folders[i], newcolor);
+		};
+	},
+
+	setGrayscaleColor: function(root, color) {
+		if (!root) {
+			root = this.root;
+			color = Colors.white;
+		}
+
+		for (var i = 0; i < root.Folders.length; i++) {
+			var newcolor = Colors.getGray(root.depth, this.maxDepth);
+			root.links[i].color0 = color;
+			root.links[i].color1 = newcolor;
+			this.setGrayscaleColor(root.Folders[i], newcolor);
+		};
+	},
+
+	setCloudFocus: function(value, root) {
+		if (!root) {root = this.root;};
+		root.cloud.focus = value;
+		for (var i = 0; i < root.Folders.length; i++) {
+			this.setCloudFocus(value, root.Folders[i]);
+		};
+	},
+
+	createRangeSpheres: function() {
+		this.spheres = [];
+		var origin = vec3.create();
+		var radius = 2;
+		for (var i = 1; i <= this.maxDepth; i++) {
+			radius *= 2;
+			this.spheres[i-1] = Builder.build(sphereObj, origin, radius, Colors.white);
+		};
+	},
+
+	drawRangeSpheres: function() {
+		for (var i = 0; i < this.spheres.length; i++) {
+			Drawer.drawObject(this.spheres[i]);
+		};
 	}
+
+	// rejuvenate: function(root, center) {
+	// 	var isRoot = false;
+	// 	if (!root) {root = this.root; isRoot = true;};
+	// 	if (!center) {center = root.cloud.center};
+
+	// 	for (var i = 0; i < root.Folders.length; i++) {
+	// 		var nextCenter = PointGenerator.sphericalPointWithinRange(center, 2.0 * Math.pow(2.0, root.depth));
+	// 		var color0 = root.links[i].color0;
+	// 		var color1 = root.links[i].color1;
+	// 		if (isRoot) {
+	// 			root.links[i] = BezierGenerator.complexLinkBezier(center, nextCenter, color0, color1);
+	// 		} else {
+	// 			root.links[i] = BezierGenerator.rootBezier(nextCenter, color0, color1);
+	// 		}
+	// 		rejuvenate(root.Folders[i], nextCenter);
+	// 	};
+	// }
 
 }

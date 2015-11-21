@@ -51,6 +51,7 @@ var Camera = {
 	changeRadius: function(dscroll) {
 		this.radius *= (100.0 + dscroll) / 100.0;
 		if (this.radius < 0.1) {this.radius = 0.1};
+		Projection.setFar(this.radius);
 		this.computeEye();
 	},
 
@@ -91,6 +92,7 @@ var Projection = {
 		this.near = near;
 		this.far = far;
 		this.mat = mat4.create();
+		this.hasChanged = false;
 		this.computeMatrix();
 	},
 
@@ -100,10 +102,20 @@ var Projection = {
 
 	setAspect: function() {
 		this.aspect = canva.clientWidth / canva.clientHeight;
+		this.hasChanged = true;
+	},
+
+	setFar: function(radius) {
+		this.far = 2*radius;
+		if (this.far < 2.0) {this.far = 2.0};
+		this.hasChanged = true;
 	},
 
 	getMatrix: function() {
-		this.computeMatrix();
+		if (this.hasChanged) {
+			this.computeMatrix();
+			this.hasChanged = false;
+		}
 		return this.mat;
 	}
 }

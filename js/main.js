@@ -1,7 +1,9 @@
 var Scene = {
-	lines: [],
-	meshes: [],
-	clouds: [],
+	lines: true,
+	meshes: false,
+	clouds: true,
+	rangeSpheres: false,
+
 	meshProgram: null,
 	lineProgram: null,
 	cloudProgram: null,
@@ -208,22 +210,28 @@ function render() {
 	if (Scene.lines) {
 		gl.useProgram(LineDrawer.program);
 		LineDrawer.setViewport(Camera, Projection);
-		TreeManager.renderLinks(archi);
+		TreeManager.renderLinks();
 	}
 
 	if (Scene.clouds) {
 		gl.useProgram(CloudDrawer.program);
 		CloudDrawer.setViewport(Camera, Projection);
-		TreeManager.renderClouds(archi, t);
+		TreeManager.renderClouds(t);
 	}
 
-	if (Scene.meshes && Scene.enableMesh) {
+	if (Scene.meshes) {
 		gl.useProgram(Scene.meshProgram);
 		Drawer.setViewport(Camera, Projection);
 		for (var i = 0; i < Scene.meshes.length; i++) {
 			Drawer.drawObject(Scene.meshes[i]);
 		};
 	}
+
+	if (Scene.rangeSpheres) {
+		gl.useProgram(Scene.meshProgram);
+		Drawer.setViewport(Camera, Projection);
+		TreeManager.drawRangeSpheres();
+	};
 }
 
 function resize() {

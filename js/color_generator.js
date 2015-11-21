@@ -47,6 +47,13 @@ var Colors = (function () {
 		resizeColor: function(color) {
 			vec3.min(color, color, white);
 			return vec3.max(color, color, black);
+		},
+
+		getGray: function(d, max) {
+			var ratio = 1 - d / (1 * max);
+			var color = vec3.create();
+			vec3.scale(color, this.white, ratio);
+			return color;
 		}
 
 	}

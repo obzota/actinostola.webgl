@@ -7,14 +7,15 @@ var Drawer = {
 		this.uProjectionLoc = gl.getUniformLocation(program, "u_Projection"),
 		this.uCameraLoc = gl.getUniformLocation(program, "u_Camera"),
 		this.uColorLoc = gl.getUniformLocation(program, "u_Color"),
-		this.uPositionEyeLoc = gl.getUniformLocation(program, "u_PositionEye")
+		this.uEyePositionLoc = gl.getUniformLocation(program, "u_EyePosition"),
+		this.uLuxPositionLoc = gl.getUniformLocation(program, "u_LuxPosition")
 	},
 
 	setViewport: function (camera, projection) {
 		gl.useProgram(this.program);
 		gl.uniformMatrix4fv(this.uCameraLoc, false, camera.getMatrix());
 		gl.uniformMatrix4fv(this.uProjectionLoc, false, projection.getMatrix());
-		gl.uniform3fv(this.uPositionEyeLoc, camera.eye);
+		gl.uniform3fv(this.uEyePositionLoc, camera.eye);
 	},
 
 	setProgram: function () {
@@ -32,7 +33,7 @@ var Drawer = {
 		gl.enableVertexAttribArray(this.aNormalLoc);
 		gl.vertexAttribPointer(this.aNormalLoc, 3, gl.FLOAT, false, 0, 0);
 
-		gl.drawArrays(gl.TRIANGLES, 0, mesh.vertex.length/3);
+		gl.drawArrays(gl.POINTS, 0, mesh.vertex.length/3);
 	}
 }
 
