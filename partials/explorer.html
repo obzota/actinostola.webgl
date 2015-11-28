@@ -1,0 +1,53 @@
+<canvas id="glcanvas" style="background-color: #000000" ng-controller="maincanva" onload="registerCanvaEvents()">
+	Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
+</canvas>
+<div class="ui" ng-show="showDisplay">
+	<div class="maintitle">{{focus.shortname}}</div>
+	<div>
+		<div class="shadowbutton" ng-click="backToRoot()" style="margin-top=10px;">Back to Root</div>
+	</div>
+	<div data-ng-controller="colors">
+		<div class="title">Colors</div>
+		<div>
+			<table>
+				<tr>
+					<td><div class="shadowbutton" ng-click="randomise()">Random</div></td>
+					<td><div class="shadowbutton">Show Path</div></td>
+				</tr>
+				<tr>
+					<td><div class="shadowbutton" ng-click="grayscale()">Grey Scale</div></td>
+					<td><div class="shadowbutton">Inherit</div></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div data-ng-controller="display">
+		<div class="title">Display</div>
+		<table>
+			<tr> <td>Clouds</td> <td><input type="checkbox" ng-model="scene.enable.clouds"></td> </tr>
+			<tr> <td>Links</td> <td><input type="checkbox" ng-model="scene.enable.lines"></td> </tr>
+			<tr> <td>Nodes</td> <td><input type="checkbox" ng-model="scene.enable.meshes"></td> </tr>
+			<tr> <td>Sizes</td> <td><input type="checkbox" ng-model="showsizes"></td> </tr>
+		</tr>
+	</table>
+</div>
+</div>
+<div class="ui" ng-show="showFolders">
+	<div class="maintitle">Folders</div>
+	<div class="folder clickable" ng-show="!!focus.parent" ng-click="setFocus(focus.parent)">..</div>
+	<div class="folder" ng-repeat="f in focus.folders" ng-click="setFocus(f)">{{f.shortname}}</div>
+</div>
+<div class="ui" ng-show="showFiles">
+	<div class="maintitle">Files</div>
+	<div class="file" ng-repeat="f in focus.files" ng-click="selectfile(f); toggleInfo();">{{f.shortname}}</div>
+</div>
+<div class="buttonMenu">
+	<div class="uiButton blue" ng-click="toggleDisplay()"></div>
+	<div class="uiButton green" ng-click="toggleFolders()"></div>
+	<div class="uiButton red" ng-click="toggleFiles()"></div>
+</div>
+<div class="ui fileInfo" ng-show="showInfo" ng-click="toggleFiles();">
+	<div class="maintitle">{{file.shortname}}</div>
+	<div class="info">Path : {{file.filename}}</div>
+	<div class="info">Size : {{file.size}}</div>
+</div>

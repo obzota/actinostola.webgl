@@ -23,6 +23,7 @@ def printAttrib(field, value, last):
 def printFile(filename, last):
 	printAddString("{")
 	printAttrib("filename", filename, False)
+	printAttrib("shortname", os.path.basename(filename), False)
 	try:
 		size = str(os.path.getsize(filename))
 	except Exception, e:
@@ -55,7 +56,7 @@ def explore(root):
 		printAddString("\"name\" : \"" + current + "\",")
 		printAddString("\"shortname\" : \"" + os.path.basename(current) + "\",")
 		printAddString("\"depth\" : \"" + str(depth - startDepth) + "\",")
-		printAddString("\"Files\" : [")
+		printAddString("\"files\" : [")
 		for name in range(len(filenames)-2):
 			absName = os.path.join(current, filenames[name])
 			printFile(absName, False)
@@ -63,7 +64,7 @@ def explore(root):
 			absName = os.path.join(current, filenames[len(filenames)-1])
 			printFile(absName, True)
 		printAddString("],")
-		printAddString("\"Folders\" : [")
+		printAddString("\"folders\" : [")
 	for x in xrange(1,lastDepth - startDepth +2):
 		printAddString("]")
 		printAddString("}")

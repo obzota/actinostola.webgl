@@ -4,82 +4,31 @@ body {
 	height: 100%;
 }
 
-@keyframes slideIn {
-	from {
-		right: -180px;
-	}
-	to {
-		right: 40px;
-	}
-}
-
-#finder, #buttonFinder {
-	/*animation-name: slideIn;
-	animation-duration: 3s;
-	animation-direction: normal;*/
-
-	width: 20%;
-	max-width: 200px;
-	max-height: none;
-
-	position: fixed;
-	top: 40px;
-	right: 40px;
-	bottom: 40px;
-
-	overflow: scroll;
-
-	color: #06138B;
-
-	background-color: rgba(255, 255, 255, 0.7);
-	border-style: solid;
-	border-color: #FFFFFF;
-	border-width: 1px;
-	padding: 20px;
-	border-radius: 10px;
-
-}
-
-#finder > div {
-	margin: 5px;
-	margin-bottom: 20px;
-}
-
-#finder > div .title {
-	font-size: 150%;
-	letter-spacing: -2px;
-	margin-bottom: 3px;
-	border-bottom: solid 1px #FFFFFF;
-}
-
-#finder > div .content {
-	margin-left: 20px;
-}
-
-#finder .table {
-	width: 100%;
-	height: 100%;
-}
-
-#finder .shadowButton {
-	min-height: 20px;
-	min-width: 40px;
-	text-align: center;
-
-	border-style: solid;
-	border-width: 2px;
-	padding: 0px 5px 0px;
-	margin: 0px 0px 2px;
-}
-
-#finder .shadowButton:hover {
-	color: #FFFFFF;
-}
-
 #buttonFinder {
 	width: 0px;
 	height: 0px;
 
 	text-align: center;
 	vertical-align: center;
+	background: linear-gradient(225deg, #3753E8, #06138B);
+	/*background-color: rgba(255, 255, 255, 0.1);*/
+	opacity: 0.6;
+}
+#buttonFinder:hover {
+	background: linear-gradient(225deg, #3753E8, #06138B);
+	opacity: 0.8;
+}
+
+#glcanvas {
+	width: 100%;
+	height: 100%;
+}
+
+::-webkit-scrollbar {
+	width: 0px;
+	background: transparent;
+}
+
+.clickable {
+	cursor: pointer;
 }

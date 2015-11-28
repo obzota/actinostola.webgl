@@ -1,0 +1,25 @@
+.buttonMenu {
+	position: fixed;
+	top: 40px;
+	bottom: 40px;
+	right: 0px;
+	min-width: 40px;
+	max-width: 40px;
+}
+
+.uiButton {
+	width: 40px;
+	height: 40px;
+	opacity: 0.2;
+
+	border-radius: 10px;
+	border-color: white;
+	border-style: solid;
+	border-width: 1px;
+
+	background-color: whitesmoke;
+}
+
+.uiButton:hover {
+	opacity: 0.8;
+}

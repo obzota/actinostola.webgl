@@ -1,4 +1,4 @@
-var Line  = function(vertex, color0, color1) {
+var Line  = function(gl, vertex, color0, color1) {
 	this.vertex = vertex;
 	this.indices = new Float32Array(vertex.length/3);
 	for (var i = 0; i < this.indices.length; i++) {
@@ -21,7 +21,7 @@ var Line  = function(vertex, color0, color1) {
 var BezierGenerator = {
 	size: 100,
 
-	linkBezier: function(p0, p3, color0, color1) {
+	linkBezier: function(gl, p0, p3, color0, color1) {
 		var size = 100;
 		var rad0 = vec3.len(p0);
 		var rad3 = vec3.len(p3);
@@ -45,10 +45,10 @@ var BezierGenerator = {
 			vertex[3*i+2] = curve[i].z;
 		};
 
-		return new Line(vertex, color0, color1);
+		return new Line(gl, vertex, color0, color1);
 	},
 
-	complexLinkBezier: function(p0, p3, color0, color1) {
+	complexLinkBezier: function(gl, p0, p3, color0, color1) {
 		var size = 100;
 		var rad0 = vec3.len(p0);
 		var rad3 = vec3.len(p3);
@@ -76,7 +76,7 @@ var BezierGenerator = {
 
 		var curve0 = new Bezier(p0[0], p0[1], p0[2], p1[0], p1[1], p1[2], m0[0], m0[1], m0[2], m1[0], m1[1], m1[2]).getLUT(size);
 		var curve1 = new Bezier(m1[0], m1[1], m1[2], m2[0], m2[1], m2[2], p2[0], p2[1], p2[2], p3[0], p3[1], p3[2]).getLUT(size);
-		
+
 		var vertex = new Float32Array(2*3*(size+1));
 		for (var i = 0; i < curve0.length; i++) {
 			vertex[3*i] = curve0[i].x;
@@ -89,10 +89,10 @@ var BezierGenerator = {
 			vertex[3*(i+size+1)+2] = curve1[i].z;
 		};
 
-		return new Line(vertex, color0, color1);
+		return new Line(gl, vertex, color0, color1);
 	},
 
-	rootBezier: function (p3, color0, color1) {
+	rootBezier: function (gl, p3, color0, color1) {
 		var size = 100;
 
 		var rad = vec3.len(p3);
@@ -112,6 +112,6 @@ var BezierGenerator = {
 			vertex[3*i+2] = curve[i].z;
 		};
 
-		return new Line(vertex, color0, color1);
+		return new Line(gl, vertex, color0, color1);
 	}
 }

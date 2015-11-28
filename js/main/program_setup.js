@@ -74,7 +74,7 @@ function setupGLFromId(canvasId) {
 		alert('Your browser may not support webgl.');
 		throw('ERROR : (experimental-)webgl not found');
 	}
-
+	setBasicParam(gl);
 	return gl;
 }
 

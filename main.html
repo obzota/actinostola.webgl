@@ -4,6 +4,10 @@
 	<title>First webgl</title>
 <!-- CSS -->
 	<link rel="stylesheet" href="styles/main.css">
+	<link rel="stylesheet" href="styles/ui.css">
+	<link rel="stylesheet" href="styles/ui_button.css">
+	<link rel="stylesheet" href="styles/colors.css">
+<!-- SHADERS -->
 	<!-- Mesh Shader
 		implements Phong Illumination Model -->
 	<script type="x-shader/x-fragment" id='frag_shader'>
@@ -37,7 +41,6 @@
 			vec3 color = ia + lambertian * id + specular * is;
 
 			gl_FragColor = v_Color * vec4(color, 1.0);
-			gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 		}
 	</script>
 	<script type="x-shader/x-vertex" id='vert_shader'>
@@ -145,8 +148,8 @@
 		}
 	</script>
 
-<!-- Point Shader
-	"Simpliest shader ever" -->
+	<!-- Point Shader
+		"Simpliest shader ever" -->
 	<script type="x-shader/x-vertex" id="point_vertex_shader">
 		uniform vec3 u_Position;
 		uniform vec4 u_Color;
@@ -172,35 +175,26 @@
 		}
 	</script>
 </head>
-<body ng-app="explorer" onload="main()" onresize="resize()" ng-controller="show">
-	<canvas id="glcanvas" style="background-color: #000000">
+<body ng-app="actinostola" ng-controller="explorerCtrl">
+	<canvas id="glcanvas" style="background-color: #000000" ng-controller="maincanva" onload="registerCanvaEvents()">
 		Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
 	</canvas>
-	<div id="finder" ng-show="show" ng-controller="scene">
+	<div class="ui" ng-show="showDisplay">
+		<div class="maintitle">{{focus.shortname}}</div>
 		<div>
-			<div class="title">Exploration</div>
-			<div>
-				<div class="exploParent">my parent</div>
-				<div class="exploCurrent">me !</div>
-				<div class="exploChildren">
-					<li>
-						<ul>Child 1</ul>
-						<ul>Child 2</ul>
-					</li>
-				</div>
-			</div>
+			<div class="shadowbutton" ng-click="backToRoot()" style="margin-top=10px;">Back to Root</div>
 		</div>
-		<div>
+		<div data-ng-controller="colors">
 			<div class="title">Colors</div>
 			<div>
 				<table>
 					<tr>
-						<td><div class="shadowButton" ng-click="tree.randomiseColors()">Random</div></td>
-						<td><div class="shadowButton">Show Path</div></td>
+						<td><div class="shadowbutton" ng-click="randomise()">Random</div></td>
+						<td><div class="shadowbutton" ng-click="showpath()">Show Path</div></td>
 					</tr>
 					<tr>
-						<td><div class="shadowButton">Grey Scale</div></td>
-						<td><div class="shadowButton">Inherit</div></td>
+						<td><div class="shadowbutton" ng-click="grayscale()">Grey Scale</div></td>
+						<td><div class="shadowbutton" ng-click="inherit()">Inherit</div></td>
 					</tr>
 				</table>
 			</div>
@@ -208,48 +202,68 @@
 		<div>
 			<div class="title">Display</div>
 			<table>
-				<tr> <td>Clouds</td> <td><input type="checkbox" ng-model="scene.clouds"></td> </tr>
-				<tr> <td>Links</td> <td><input type="checkbox" ng-model="scene.lines"></td> </tr>
-				<tr> <td>Nodes</td> <td><input type="checkbox" ng-model="scene.meshes"></td> </tr>
-				<tr> <td>Sizes</td> <td><input type="checkbox"></td> </tr>
+				<tr> <td>Clouds</td> <td><input type="checkbox" ng-model="enable.clouds"></td> </tr>
+				<tr> <td>Links</td> <td><input type="checkbox" ng-model="enable.lines"></td> </tr>
+				<tr> <td>Nodes</td> <td><input type="checkbox" ng-model="enable.meshes"></td> </tr>
+				<!-- Size display control is not implemented yet -->
+				<!-- <tr> <td>Sizes</td> <td><input type="checkbox" ng-model="showsizes"></td> </tr> -->
+				<tr>
+					<td>Depth ({{enable.depth}})</td>
+					<td><button ng-click="decr()">-</button><button ng-click="incr()">+</button></tr>
 				</tr>
 			</table>
 		</div>
 	</div>
-	<button id="buttonFinder" ng-click="toggle()">
-	<button>
+	<div class="ui" ng-show="showFolders">
+		<div class="maintitle">Folders</div>
+		<div class="folder clickable" ng-show="!!focus.parent" ng-click="setFocus(focus.parent)">..</div>
+		<div class="folder" ng-repeat="f in focus.folders" ng-click="setFocus(f)">
+			<div class="tile" style="background-color:{{f.color}}"></div>
+			 <div>{{f.shortname}}</div>
+		</div>
+	</div>
+	<div class="ui" ng-show="showFiles">
+		<div class="maintitle">Files</div>
+		<div class="file" ng-repeat="f in focus.files" ng-click="selectfile(f); toggleInfo();">{{f.shortname}}</div>
+	</div>
+	<div class="buttonMenu">
+		<div class="uiButton" ng-click="toggleDisplay()"></div>
+		<div class="uiButton" ng-click="toggleFolders()"></div>
+		<div class="uiButton" ng-click="toggleFiles()"></div>
+	</div>
+	<div class="ui fileInfo" ng-show="showInfo" ng-click="toggleFiles();">
+		<div class="maintitle">{{file.shortname}}</div>
+		<div class="info">Path : {{file.filename}}</div>
+		<div class="info">Size : {{file.size}}</div>
+	</div>
 
-<!-- External library -->
+
+<!-- External libraries -->
 	<script type="text/javascript" src="js/lib/gl-matrix-min.js"></script>
 	<script type="text/javascript" src="js/lib/bezier.js"></script>
-	<script type="text/javascript" src="js/lib/angular.js"></script>
+	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+	<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
 
-<!-- Owned files -->
-	<script type="text/javascript" src="js/test_angular.js"></script>
-
-	<script src="js/camera_and_projection.js" type='text/javascript'></script>
-	<script src="js/program_setup.js" type='text/javascript'></script>
-	<script src="js/main.js" type='text/javascript'></script>
-	<script src="js/object_builder.js" type='text/javascript'></script>
-	<script src="js/drawers.js" type='text/javascript'></script>
-
-	<script src="js/color_generator.js" type='text/javascript'></script>
-	<script src="js/line_generator.js" type='text/javascript'></script>
-	<script src="js/point_generator.js" type='text/javascript'></script>
-
-	<script src="js/events.js" type='text/javascript'></script>
-	<script src="js/tree_builder.js" type='text/javascript'></script>
-
-
-
-<!-- json data as JS-->
-	<script src="js/data.js" type='text/javascript'></script>
+<!-- main -->
+	<script src="js/main/data.js" type='text/javascript'></script>
+	<script src="js/main/test_angular.js" type="text/javascript"></script>
+	<script src="js/main/camera_and_projection.js" type='text/javascript'></script>
+	<script src="js/main/program_setup.js" type='text/javascript'></script>
+	<script src="js/main/main.js" type='text/javascript'></script>
+	<script src="js/main/object_builder.js" type='text/javascript'></script>
+	<script src="js/main/drawers.js" type='text/javascript'></script>
+	<script src="js/main/color_generator.js" type='text/javascript'></script>
+	<script src="js/main/line_generator.js" type='text/javascript'></script>
+	<script src="js/main/point_generator.js" type='text/javascript'></script>
+	<script src="js/main/events.js" type='text/javascript'></script>
+	<script src="js/main/tree_builder.js" type='text/javascript'></script>
+	<script src="js/main/scene.js" type="text/javascript"></script>
 
 <!-- Objects generated from .obj files -->
-	<script src="objects/icosphere.js" type='text/javascript'></script>
-	<script src="objects/cube.js" type='text/javascript'></script>
-	<script src="objects/torus.js" type='text/javascript'></script>
-	<script src="objects/sphere.js" type='text/javascript'></script>
+	<script src="js/objects/icosphere.js" type='text/javascript'></script>
+	<script src="js/objects/cube.js" type='text/javascript'></script>
+	<script src="js/objects/torus.js" type='text/javascript'></script>
+	<script src="js/objects/sphere.js" type='text/javascript'></script>
 
 </body>
 </html>

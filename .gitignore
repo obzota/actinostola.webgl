@@ -3,3 +3,6 @@ shader/*
 *.bak
 objects/cube.obj
 objects/sphere.obj
+*.DS_Store
+tests
+images

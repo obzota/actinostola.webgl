@@ -1,0 +1,79 @@
+.ui {
+
+	position: fixed;
+	right: 40px;
+	top: 40px;
+	bottom: 40px;
+
+	color: #08104C;
+	background-color: rgba(255, 255, 255, 0.8);
+
+	border-color: white;
+	border-style: solid;
+	border-radius: 10px;
+	border-width: 1px;
+
+	min-width: 20%;
+	max-width: 200px;
+
+	padding: 10px;
+
+	overflow: scroll;
+
+	cursor: default;
+}
+
+.ui .maintitle {
+	font-size: 200%;
+	border-bottom: 3px white solid;
+	margin-bottom: 10px;
+}
+
+.ui .title {
+	margin-top: 20px;
+	border-bottom: 1px white solid;
+	font-size: 150%;
+	color: #08104C;
+}
+
+.ui .shadowbutton {
+	border-color: #08104C;
+	border-style: solid;
+
+	padding: 0px 10px 0px;
+
+	text-align: center;
+
+	cursor: pointer;
+
+}
+
+.ui .shadowbutton:hover {
+	color: white;
+	border-color: white;
+}
+
+.ui .file {
+	cursor: help;
+}
+
+.ui .file:hover {
+	color: white;
+}
+
+.ui .folder {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	cursor: alias;
+}
+
+.ui .folder .tile {
+	padding: 5px;
+	margin: 5px;
+	display: inline;
+}
+
+.ui .folder:hover {
+	color: white;
+}

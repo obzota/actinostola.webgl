@@ -2,7 +2,7 @@
 	CLASS 	Cloud
  * * * * * * * * * * * * * * * * * * * * */
 
-var Cloud = function(center, radius, color, sizes, delays, depth) {
+var Cloud = function(gl, center, radius, color, sizes, delays, depth) {
 	this.center = vec3.create();
 	vec3.copy(this.center, center);
 	this.sizes = sizes;
@@ -10,7 +10,7 @@ var Cloud = function(center, radius, color, sizes, delays, depth) {
 	this.radius = radius;
 	this.color = color;
 	this.size = sizes.length;
-	this.focus = true;
+	this.focus = false;
 	this.depth = depth;
 
 	this.sizesBuffer = gl.createBuffer();
@@ -21,7 +21,7 @@ var Cloud = function(center, radius, color, sizes, delays, depth) {
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.delaysBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, this.delays, gl.STATIC_DRAW);
 
-	this.children = [];
+	// this.children = [];
 }
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -71,7 +71,7 @@ var PointGenerator = {
 		return p;
 	},
 
-	generateCloud: function (center, radius, color, objects, depth) {
+	generateCloud: function (gl, center, radius, color, objects, depth) {
 		var sizes = new Float32Array(objects.length);
 		var delays = new Float32Array(objects.length);
 		for (var i = 0; i < objects.length; i++) {
@@ -79,7 +79,7 @@ var PointGenerator = {
 			sizes[i] = p.size;
 			delays[i] = p.delay;
 		};
-		return new Cloud(center, radius, color, sizes, delays, depth);
+		return new Cloud(gl, center, radius, color, sizes, delays, depth);
 	},
 
 	randomParameter: function(size) {

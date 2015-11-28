@@ -1,4 +1,4 @@
-var Drawable = function (vertex, normals, color, scale) {
+var Drawable = function (gl, vertex, normals, color, scale) {
 	this.scale = scale;
 	this.vertex = vertex;
 	this.normals = normals;
@@ -13,7 +13,7 @@ var Drawable = function (vertex, normals, color, scale) {
 
 var Builder = {
 
-	build: function(object, pos, scale, color) {
+	build: function(gl, object, pos, scale, color) {
 		var buffedVertex = new Float32Array(object.nFaces*9);
 		var buffedNormals = new Float32Array(object.nFaces*9);
 		for (var i = 0; i < object.nFaces; i++) {
@@ -68,6 +68,6 @@ var Builder = {
 			buffedNormals[9*i+8] = n2[2];
 		};
 
-		return new Drawable(buffedVertex, buffedNormals, color, scale);
+		return new Drawable(gl, buffedVertex, buffedNormals, color, scale);
 	},
 }
