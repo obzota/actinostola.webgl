@@ -1,8 +1,9 @@
-var explorer = angular.module('actinostola', ['webgl']);
+var explorer = angular.module('actinostola.explorer', [
+	'actinostola.webgl',
+	'actinostola.data']);
 
-explorer.controller('maincanva', ['$scope', 'canvas', 'scene', 'eventbuffer', 'tree',
-	function($scope, id, scene, buffer, tree) {
-	$scope.id = id;
+explorer.controller('explorer.canvactrl', ['$scope', 'explorer.canvas', 'explorer.scene', 'explorer.eventbuffer', 'explorer.tree',
+	function($scope, canvas, scene, buffer, tree) {
 
 	$scope.mouseMove = function (event) {
 		// console.log(buffer);
@@ -61,7 +62,7 @@ explorer.controller('maincanva', ['$scope', 'canvas', 'scene', 'eventbuffer', 't
 
 }]);
 
-explorer.factory('eventbuffer', function () {
+explorer.factory('explorer.eventbuffer', function () {
 	return {
 		x: 0,
 		y: 0,
@@ -72,18 +73,18 @@ explorer.factory('eventbuffer', function () {
 	};
 });
 
-explorer.value('canvasid', 'glcanvas');
-explorer.factory('canvas', ['canvasid', function canvaFactory (id){
+explorer.value('explorer.canvasid', 'glcanvas');
+explorer.factory('explorer.canvas', ['explorer.canvasid', function canvaFactory (id){
 	return document.getElementById(id);
 }]);
 
-explorer.factory('scene', ['webgl.scene', 'canvasid', function (Scene, id) {
+explorer.factory('explorer.scene', ['webgl.scene', 'explorer.canvasid', function (Scene, id) {
 	var scene = new Scene(id);
 	console.log(scene);
 	return scene;
 }]);
 
-explorer.controller('explorerCtrl', ['$scope', 'scene', 'tree', function($scope, scene, tree) {
+explorer.controller('explorer.mainctrl', ['$scope', 'explorer.scene', 'explorer.tree', function($scope, scene, tree) {
 
 	/* * * * * * * * * * * * * * * * * * * */
 	/*              Show UIs               */
@@ -172,11 +173,11 @@ explorer.controller('explorerCtrl', ['$scope', 'scene', 'tree', function($scope,
 
 }]);
 
-explorer.factory('tree', ['scene', function(scene) {
+explorer.factory('explorer.tree', ['explorer.scene', 'explorer.structure', function(scene, archi) {
 	return new TreeManager(scene, archi);
 }]);
 
-explorer.controller('colors', ['$scope', 'tree', function($scope, tree){
+explorer.controller('explorer.colorsctrl', ['$scope', 'explorer.tree', function($scope, tree){
 
 	$scope.randomise = function () {
 		console.log("change color to : random");
@@ -198,7 +199,7 @@ explorer.controller('colors', ['$scope', 'tree', function($scope, tree){
 	};
 }]);
 
-explorer.controller('display', ['$scope', 'scene', function($scope, scene) {
+explorer.controller('display', ['$scope', 'explorer.scene', function($scope, scene) {
 	$scope.scene = scene;
 
 	$scope.incr = function () {

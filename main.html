@@ -175,8 +175,8 @@
 		}
 	</script>
 </head>
-<body ng-app="actinostola" ng-controller="explorerCtrl">
-	<canvas id="glcanvas" style="background-color: #000000" ng-controller="maincanva" onload="registerCanvaEvents()">
+<body ng-app="actinostola" ng-controller="explorer.mainctrl">
+	<canvas id="glcanvas" style="background-color: #000000" ng-controller="explorer.canvactrl" onload="registerCanvaEvents()">
 		Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
 	</canvas>
 	<div class="ui" ng-show="showDisplay">
@@ -184,7 +184,7 @@
 		<div>
 			<div class="shadowbutton" ng-click="backToRoot()" style="margin-top=10px;">Back to Root</div>
 		</div>
-		<div data-ng-controller="colors">
+		<div data-ng-controller="explorer.colorsctrl">
 			<div class="title">Colors</div>
 			<div>
 				<table>
@@ -237,33 +237,43 @@
 		<div class="info">Size : {{file.size}}</div>
 	</div>
 
-
-<!-- External libraries -->
-	<script type="text/javascript" src="js/lib/gl-matrix-min.js"></script>
-	<script type="text/javascript" src="js/lib/bezier.js"></script>
+<!-- AngularJS -->
 	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
 	<script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
 
-<!-- main -->
-	<script src="js/main/data.js" type='text/javascript'></script>
-	<script src="js/main/test_angular.js" type="text/javascript"></script>
-	<script src="js/main/camera_and_projection.js" type='text/javascript'></script>
-	<script src="js/main/program_setup.js" type='text/javascript'></script>
-	<script src="js/main/main.js" type='text/javascript'></script>
-	<script src="js/main/object_builder.js" type='text/javascript'></script>
-	<script src="js/main/drawers.js" type='text/javascript'></script>
-	<script src="js/main/color_generator.js" type='text/javascript'></script>
-	<script src="js/main/line_generator.js" type='text/javascript'></script>
-	<script src="js/main/point_generator.js" type='text/javascript'></script>
-	<script src="js/main/events.js" type='text/javascript'></script>
-	<script src="js/main/tree_builder.js" type='text/javascript'></script>
-	<script src="js/main/scene.js" type="text/javascript"></script>
+<!-- External libraries -->
+	<script type="text/javascript" src="app/lib/gl-matrix-min.js"></script>
+	<script type="text/javascript" src="app/lib/bezier.js"></script>
 
-<!-- Objects generated from .obj files -->
-	<script src="js/objects/icosphere.js" type='text/javascript'></script>
-	<script src="js/objects/cube.js" type='text/javascript'></script>
-	<script src="js/objects/torus.js" type='text/javascript'></script>
-	<script src="js/objects/sphere.js" type='text/javascript'></script>
+<!-- Actinostola (App module) -->
+	<script type="text/javascript" src="app/actinostola.module.js"></script>
+
+<!-- WebGL -->
+	<script type="text/javascript" src="app/webgl/webgl.module.js"></script>
+	<script type="text/javascript" src="app/webgl/cloud.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/colors.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/drawers.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/link.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/mesh.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/program.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/scene.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/tree.factory.js"></script>
+	<script type="text/javascript" src="app/webgl/viewport.factory.js"></script>
+
+<!-- data -->
+	<script type="text/javascript" src="app/data/data.js"></script>
+	<script type="text/javascript" src="app/data/data.module.js"></script>
+	<script type="text/javascript" src="app/data/main.factory.js"></script>
+
+<!-- explorer -->
+	<script type="text/javascript" src="app/explorer/explorer.module.js"></script>
+	<script type="text/javascript" src="app/explorer/structure.factory.js"></script>
+
+<!-- .obj.js -->
+	<script src="app/objects/icosphere.js" type='text/javascript'></script>
+	<script src="app/objects/cube.js" type='text/javascript'></script>
+	<script src="app/objects/torus.js" type='text/javascript'></script>
+	<script src="app/objects/sphere.js" type='text/javascript'></script>
 
 </body>
 </html>

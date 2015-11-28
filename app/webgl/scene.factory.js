@@ -1,4 +1,3 @@
-var _webgl = angular.module('webgl', []);
 _webgl.factory('webgl.scene', function webglScene() {
 	var Scene = function (canvasId) {
 		this.gl = setupGLFromId(canvasId);
@@ -53,8 +52,8 @@ _webgl.factory('webgl.scene', function webglScene() {
 		this.canvas.style.height = height + "px";
 		this.canvas.height = height;
 
-		this.projection.setAspect(canvas);
-		this.gl.viewport(0,0, canvas.width, canvas.height);
+		this.projection.setAspect(this.canvas);
+		this.gl.viewport(0,0, this.canvas.width, this.canvas.height);
 	};
 
 
