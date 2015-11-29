@@ -13,19 +13,18 @@
 <div class="article">
 	<canvas></canvas>
 	<div class="corpus right">
-		<div class="title"> Bezier Curves</div>
+		<div class="title">Mesh Shading</div>
 		<div class="text">
-			Bezier curves are drawn to represent the links between folders. To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point with two symetric point randomly choosen.
+			<p>Phong illumination model. Very shine. Such light. Wow. Very shine. Such light. Wow. Very shine. Such light. Wow.</p>
 		</div>
 	</div>
 </div>
 
 <div class="article">
 	<div class="corpus left">
-		<div class="title"> Bezier Curves</div>
+		<div class="title">Folders</div>
 		<div class="text">
-			Bezier curves are drawn to represent the links between folders. To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point with two symetric point randomly choosen.
-			Bezier curves are drawn to represent the links between folders. To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point with two symetric point randomly choosen.
+			<p>Folders are simply represented by location in the space. We can materialize them using a little sphere of course. The choice of the location is bound to the depth of the folder (i.e. the distance to the root folder). The root folder is placed at the origin, then we associate with each depth a radius. All the folders of a given depth will be on the surface of a sphere of center origin and with the corresponding radius.</p>
 		</div>
 	</div>
 	<canvas></canvas>
@@ -34,31 +33,24 @@
 <div class="article">
 	<canvas></canvas>
 	<div class="corpus right">
-		<div class="title"> Bezier Curves</div>
+		<div class="title">Cloud of files</div>
 		<div class="text">
-			Bezier curves are drawn to represent the links between folders. To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point with two symetric point randomly choosen.
+			<p>Files of a folders take the form of a cloud of particules around the folder location. The size of a particle is linked to the size of a file with a logarithmic progression. This choice is based on the fact that on a computer file sizes can go from a few bytes to gigabytes wich make a linear representation impossible.</p>
+			<p>The Movement of the particules follows a 3D parametric curve which gravitate around the folder. Each point is given a random time offset so we can't see that they follow the same trajectory.</p>
 		</div>
 	</div>
 </div>
 
 <div class="article">
 	<div class="corpus left">
-		<div class="title"> Bezier Curves</div>
+		<div class="title">Bezier Curves</div>
 		<div class="text">
-			Bezier curves are drawn to represent the links between folders. To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point with two symetric point randomly choosen.
+			<p>Bezier curves are drawn to represent the links between folders. In order to give a soft representation the tangents at the folders follows is the radius from the origin to the folder. That give the aspect flowers expanding and giving birth to other flowers.</p>
+			<p>To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point. The linking point is simply the middle point between two folders.</p>
+			<p>The brightness of the curve is diminished as it progress to the child folder. This effect increase the clarity of the representation and the effect of flowering.</p>
 		</div>
 	</div>
 	<canvas></canvas>
-</div>
-
-<div class="article">
-	<canvas></canvas>
-	<div class="corpus right">
-		<div class="title"> Bezier Curves</div>
-		<div class="text">
-			Bezier curves are drawn to represent the links between folders. To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point with two symetric point randomly choosen.
-		</div>
-	</div>
 </div>
 
 <div class="container">
