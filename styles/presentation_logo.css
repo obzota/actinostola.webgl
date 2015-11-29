@@ -1,0 +1,37 @@
+#technologies {
+	flex-direction: row;
+	justify-content: space-around;
+	margin: auto;
+	flex-wrap: wrap;
+
+	width: 100%;
+
+}
+
+.logo {
+	overflow: scroll;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin: 1%;
+
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px lightgray solid;
+	box-shadow: -1px -1px darkgray;
+}
+
+.logo img {
+	max-height: 200px;
+}
+
+.logo .name {
+	padding: 5px;
+
+	font-size: 140%;
+	color: #40627F;
+	text-align: center;
+
+	margin-top: 5px;
+	border-top: solid 1px;
+}
