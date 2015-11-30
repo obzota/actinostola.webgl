@@ -21,7 +21,6 @@ var TreeManager = function (scene, root) {
  * @method     build
  */
 TreeManager.prototype.build = function() {
-	console.log(this.root);
 	var root = this.root;
 	var origin = vec3.create();
 	var white = vec3.create(); vec3.set(white, 1.0, 1.0, 1.0);
@@ -100,7 +99,6 @@ TreeManager.prototype.randomiseColors = function() {
  * @param      {vec3}  color   { description }
  */
 TreeManager.prototype._recRandomiseColors = function(root, color) {
-	console.log(root);
 	root.color = Colors.toHexString(color);
 	root.cloud.color = color;
 	root.sphere.color = color;

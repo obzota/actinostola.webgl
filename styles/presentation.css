@@ -27,7 +27,7 @@ body {
 	justify-content: space-between;
 
 	min-height: 40px;
-	color: whitesmoke;
+	color: white;
 
 	width: 50%;
 }
@@ -38,22 +38,34 @@ body {
 	justify-content: center;
 	width: 100%;
 	/*min-height: 200px;*/
-	background-color: whitesmoke;
-	margin: auto;
+	background-color: white;
 }
 
 .plainshadowbutton {
 	align-self: center;
 	padding: 10px 30px 10px;
 	border: solid 5px;
+	border-radius: 10px;
 
 	color: darkgray;
 
 	font-size: 200%;
+	text-decoration: none;
+	transition: font-size 0.3s;
 	cursor: default;
+
+	margin: 3%;
+
+	cursor: pointer;
 }
 .plainshadowbutton:hover {
 	color: #40627F;
+	font-size: 300%;
+}
+
+#startdiv {
+	/*background-color: rgba(255, 255, 255, 0.3);*/
+	height: 300px;
 }
 
 .article {

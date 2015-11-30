@@ -78,14 +78,25 @@
 		uniform vec3 u_Color_Origin;
 		uniform vec3 u_Color_Dest;
 
+		uniform float u_Time;
+		uniform float u_Offset;
+		uniform float u_Period;
+
 		varying vec4 v_Color;
 
 		void main(void) {
+			float period = 10.0 + u_Period * 10.0;
+			float offset = u_Offset * period;
+			float t = mod(u_Time + offset, period) - 0.5;
+			float pulse = exp(-pow( 7.0* (t - a_Index/u_MaxIndex), 2.0));
+			vec4 pulsecolor = vec4(pulse, pulse, pulse, 1.0);
+
 			gl_Position = u_Projection * u_Camera * vec4(a_Position, 1.0);
 			float ratio = a_Index / u_MaxIndex;
 			vec3 tmp_Color = u_Color_Dest * (ratio) + u_Color_Origin * (1.0-ratio);
-			tmp_Color = (tmp_Color * 0.9 * (1.0-ratio) + vec3(1.0, 1.0, 1.0) * 0.1);
-			v_Color = vec4(tmp_Color, 1.0);
+			tmp_Color = tmp_Color * 0.8 * (1.0-ratio) + vec3(1.0, 1.0, 1.0) * 0.2;
+			v_Color = vec4(tmp_Color, 1.0) * (0.5 + 0.5 * pulse) ;
+			// v_Color = pulsecolor;
 		}
 	</script>
 	<script type="x-shader/x-fragment" id="line_fragment_shader">

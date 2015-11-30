@@ -1,10 +1,26 @@
 .sectiontitle {
-	background-color: whitesmoke;
+	background-color: white;
 
 	font-size: 300%;
 	text-align: center;
 	width: 100%;
 	color: #40627F;
+	padding-top: 3%;
+	padding-bottom: 3%;
 
 	text-shadow: 1px 1px lightgray;
+}
+
+#demotitle {
+	background-color: #40627F;
+	color: whitesmoke;
+	text-shadow: 1px 1px lightgray;
+
+	border-bottom: solid white 1px;
+	border-top: solid white 1px;
+
+}
+
+#technologies {
+	padding-bottom: 5%;
 }

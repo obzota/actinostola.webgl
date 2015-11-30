@@ -6,7 +6,6 @@ explorer.controller('explorer.canvactrl', ['$scope', 'explorer.canvas', 'explore
 	function($scope, canvas, scene, buffer, tree) {
 
 	$scope.mouseMove = function (event) {
-		// console.log(buffer);
 		buffer.x = event.clientX;
 		buffer.y = event.clientY;
 	};
@@ -45,18 +44,13 @@ explorer.controller('explorer.canvactrl', ['$scope', 'explorer.canvas', 'explore
 	};
 
 	$scope.animloop = function () {
-		// console.log("animloop");
-		// console.log(this);
 		requestAnimFrame($scope.animloop);
 		scene.handleEvents(buffer);
 	  	scene.render();
 	};
 
-	// console.log(scene);
-	// resize();
 	scene.resize();
 	$scope.animloop();
-	// scene.render();
 
 	$scope.registerEvents();
 
@@ -80,7 +74,6 @@ explorer.factory('explorer.canvas', ['explorer.canvasid', function canvaFactory 
 
 explorer.factory('explorer.scene', ['webgl.scene', 'explorer.canvasid', function (Scene, id) {
 	var scene = new Scene(id);
-	console.log(scene);
 	return scene;
 }]);
 
@@ -138,8 +131,6 @@ explorer.controller('explorer.mainctrl', ['$scope', 'explorer.scene', 'explorer.
 	};
 
 	$scope.enable = scene.enable;
-	console.log($scope);
-	console.log(scene);
 
 	/* * * * * * * * * * * * * * * * * * * */
 	/*                                     */
@@ -149,8 +140,6 @@ explorer.controller('explorer.mainctrl', ['$scope', 'explorer.scene', 'explorer.
 	$scope.fileselected = null;
 
 	$scope.setFocus = function (node) {
-		// console.log(node);
-		// console.log($scope);
 		if (!node) return;
 		if ($scope.focus) $scope.focus.cloud.focus = false;
 		$scope.focus = node;
@@ -181,7 +170,6 @@ explorer.controller('explorer.colorsctrl', ['$scope', 'explorer.tree', function(
 
 	$scope.randomise = function () {
 		console.log("change color to : random");
-		// console.log(tree);
 		tree.randomiseColors();
 	};
 
@@ -203,7 +191,6 @@ explorer.controller('display', ['$scope', 'explorer.scene', function($scope, sce
 	$scope.scene = scene;
 
 	$scope.incr = function () {
-		console.log(scene.enable);
 		scene.enable.depth++;
 	};
 

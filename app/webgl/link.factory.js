@@ -5,6 +5,9 @@ var Line  = function(gl, vertex, color0, color1) {
 		this.indices[i] = i;
 	};
 
+	this.offset = Math.random();
+	this.period = Math.random();
+
 	this.color1 = color1;
 	this.color0 = color0;
 

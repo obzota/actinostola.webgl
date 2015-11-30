@@ -12,7 +12,6 @@ var Drawer = function(gl, program) {
 };
 
 Drawer.prototype.setViewport = function (camera, projection) {
-	// console.log(camera);
 	this.gl.useProgram(this.program);
 	this.gl.uniformMatrix4fv(this.uCameraLoc, false, camera.getMatrix());
 	this.gl.uniformMatrix4fv(this.uProjectionLoc, false, projection.getMatrix());
@@ -42,11 +41,15 @@ var LineDrawer = function(gl, program) {
 	this.program = program;
 	this.aPositionLoc = this.gl.getAttribLocation(program, "a_Position");
 	this.uProjectionLoc = this.gl.getUniformLocation(program, "u_Projection");
+	this.uTimeLoc = this.gl.getUniformLocation(program, "u_Time");
 	this.uCameraLoc = this.gl.getUniformLocation(program, "u_Camera");
 	this.uColorOriginLoc = this.gl.getUniformLocation(program, "u_Color_Origin");
 	this.uColorDestLoc = this.gl.getUniformLocation(program, "u_Color_Dest");
 	this.uMaxIndexLoc = this.gl.getUniformLocation(program, "u_MaxIndex");
 	this.aIndexLoc = this.gl.getAttribLocation(program, "a_Index");
+
+	this.uOffsetLoc = this.gl.getUniformLocation(program, "u_Offset");
+	this.uPeriodLoc = this.gl.getUniformLocation(program, "u_Period");
 };
 
 LineDrawer.prototype.setViewport = function (camera, projection) {
@@ -59,7 +62,7 @@ LineDrawer.prototype.setProgram = function () {
 	this.gl.useProgram(this.program);
 };
 
-LineDrawer.prototype.draw = function (line) {
+LineDrawer.prototype.draw = function (line, time) {
 	this.gl.bindBuffer(this.gl.ARRAY_BUFFER, line.vertexBuffer);
 	this.gl.enableVertexAttribArray(this.aPositionLoc);
 	this.gl.vertexAttribPointer(this.aPositionLoc, 3, this.gl.FLOAT, false, 0, 0);
@@ -71,6 +74,9 @@ LineDrawer.prototype.draw = function (line) {
 	this.gl.uniform3fv(this.uColorOriginLoc, line.color0);
 	this.gl.uniform3fv(this.uColorDestLoc, line.color1);
 	this.gl.uniform1f(this.uMaxIndexLoc, line.indices.length);
+	this.gl.uniform1f(this.uTimeLoc, time);
+	this.gl.uniform1f(this.uOffsetLoc, line.offset);
+	this.gl.uniform1f(this.uPeriodLoc, line.period);
 
 	this.gl.drawArrays(this.gl.LINE_STRIP, 0, line.vertex.length/3);
 

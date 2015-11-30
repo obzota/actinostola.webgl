@@ -18,13 +18,17 @@
 	padding: 10px;
 	border-radius: 10px;
 	border: 1px lightgray solid;
-	box-shadow: -1px -1px darkgray;
+	box-shadow: 1px 1px darkgray;
+}
+
+.logo:hover {
+	box-shadow: -1px -1px lightgray;
+	background-color: whitesmoke;
 }
 
 .logo img {
 	max-height: 200px;
 }
-
 .logo .name {
 	padding: 5px;
 

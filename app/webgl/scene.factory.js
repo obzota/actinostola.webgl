@@ -44,7 +44,6 @@ _webgl.factory('webgl.scene', function webglScene() {
 	};
 
 	Scene.prototype.resize = function () {
-		// console.log(this);
 		var width = window.innerWidth;
 		var height = window.innerHeight;
 		this.canvas.style.width = width + "px";

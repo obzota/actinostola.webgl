@@ -42,7 +42,6 @@ Camera.prototype.computeUp = function() {
 	var scale = vec3.dot(this.up, this.localEye);
 	vec3.scaleAndAdd(this.up, this.up, this.localEye, scale);
 	vec3.normalize(this.up, this.up);
-	// console.log(up);
 };
 
 Camera.prototype.changeRadius = function(dscroll) {

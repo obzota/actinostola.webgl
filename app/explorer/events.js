@@ -16,8 +16,6 @@ var EventBuffer = function (canvas) {
 	Generated when clic on the canvas
 	can release outside */
 EventBuffer.prototype.mouseMove = function (event) {
-	// console.log(event);
-	// console.log(this);
 	return;
 	this.mousetrack.x = event.clientX;
 	this.mousetrack.y = event.clientY;
