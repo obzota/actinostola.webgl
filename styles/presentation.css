@@ -1,4 +1,5 @@
 body {
+	font-family: 'Roboto';
 	color: #FFFFFF;
 	background-color: #40627F;
 	margin: 0px;
@@ -12,6 +13,7 @@ body {
 .header {
 	text-align: center;
 	font-size: 500%;
+	font-family: 'Ubuntu Condensed';
 	color: white;
 	text-shadow: 1px 1px darkgray;
 
@@ -63,6 +65,7 @@ body {
 
 	color: darkgray;
 
+	font-family: 'Ubuntu Condensed';
 	font-size: 200%;
 	text-decoration: none;
 	transition: font-size 0.3s;
@@ -123,6 +126,7 @@ body {
 
 .article .corpus .title {
 	border-bottom: white 1px solid;
+	font-family: 'Ubuntu Condensed';
 	font-size: 200%;
 
 	margin-bottom: 10px;

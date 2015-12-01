@@ -31,7 +31,6 @@ controller('demo.bezierctrl', ['$scope', 'webgl.scene', function bezierctrl ($sc
 			var bez = BezierGenerator.rootBezier(scene.gl, r, co, cr);
 			scene.lines.push(bez);
 		};
-		console.log(scene.lines);
 	}
 	init();
 

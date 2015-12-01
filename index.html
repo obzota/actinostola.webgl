@@ -4,6 +4,10 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
+
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu Condensed">
+
 	<link rel="stylesheet" href="styles/presentation.css">
 	<link rel="stylesheet" href="styles/presentation_logo.css">
 	<link rel="stylesheet" href="styles/presentation_section.css">
@@ -242,7 +246,8 @@
 	<div class="corpus left">
 		<div class="title">Folders</div>
 		<div class="text">
-			<p>Folders are simply represented by location in the space. We can materialize them using a little sphere. The choice of the location is bound to the depth of the folder (i.e. the distance to the root folder). The root folder is placed at the origin, then we associate with each depth a radius. All the folders of a given depth will be on the surface of a sphere of center origin and with the corresponding radius.</p>
+			<p>Folders are simply represented by location in the space. We can materialize them using a little sphere. </p>
+			<p>The choice of the location is bound to the depth of the folder (i.e. the distance to the root folder). The root folder is placed at the origin, then we associate with each depth a radius. All the folders of a given depth will be on the surface of a sphere of center origin and with the corresponding radius.</p>
 		</div>
 	</div>
 	<canvas id="folderscanvas" ng-controller="demo.foldersctrl"></canvas>
@@ -253,7 +258,8 @@
 	<div class="corpus right">
 		<div class="title">Cloud of files</div>
 		<div class="text">
-			<p>Files of a folders take the form of a cloud of particules around the folder location. The size of a particle is linked to the size of a file with a logarithmic progression. This choice is based on the fact that on a computer file sizes can go from a few bytes to gigabytes wich make a linear representation impossible.</p>
+			<p>Files of a folders take the form of a cloud of particules around the folder location. </p>
+			<p> The size of a particle is linked to the size of a file with a logarithmic progression. This choice is based on the fact that on a computer file sizes can go from a few bytes to gigabytes wich make a linear representation impossible.</p>
 			<p>The Movement of the particules follows a 3D parametric curve which gravitate around the folder. Each point is given a random time offset so we can't see that they follow the same trajectory.</p>
 		</div>
 	</div>

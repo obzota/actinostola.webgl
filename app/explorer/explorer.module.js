@@ -169,20 +169,16 @@ explorer.factory('explorer.tree', ['explorer.scene', 'explorer.structure', funct
 explorer.controller('explorer.colorsctrl', ['$scope', 'explorer.tree', function($scope, tree){
 
 	$scope.randomise = function () {
-		console.log("change color to : random");
 		tree.randomiseColors();
 	};
 
 	$scope.grayscale = function () {
-		console.log("change color to : gray");
 		tree.setGrayscaleColor();
 	};
 	$scope.inherit = function() {
-		console.log("change color to : herited");
 		tree.setInheritedColor();
 	};
 	$scope.showpath = function () {
-		console.log("show path to current folder");
 		tree.showPath();
 	};
 }]);
