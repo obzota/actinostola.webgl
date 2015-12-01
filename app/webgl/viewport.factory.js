@@ -45,8 +45,8 @@ Camera.prototype.computeUp = function() {
 };
 
 Camera.prototype.changeRadius = function(dscroll) {
-	this.radius *= (100.0 + dscroll) / 100.0;
-	if (this.radius < 0.1) {this.radius = 0.1};
+	this.radius *= (600.0 + dscroll) / 600.0;
+	if (this.radius < 0.5) {this.radius = 0.5};
 	this.computeEye();
 	return this.radius;
 };
