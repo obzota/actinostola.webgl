@@ -71,13 +71,18 @@ var PointGenerator = {
 		return p;
 	},
 
-	generateCloud: function (gl, center, radius, color, objects, depth) {
+	generateCloud: function (gl, center, radius, color, objects, depth, delta) {
 		var sizes = new Float32Array(objects.length);
 		var delays = new Float32Array(objects.length);
 		for (var i = 0; i < objects.length; i++) {
 			p = this.randomParameter(objects[i].size);
 			sizes[i] = p.size;
 			delays[i] = p.delay;
+		};
+		if (delta) {
+			for (var i = 1; i < delays.length; i++) {
+				delays[i] = delays[i-1] + delta;
+			};
 		};
 		return new Cloud(gl, center, radius, color, sizes, delays, depth);
 	},

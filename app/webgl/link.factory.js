@@ -58,8 +58,8 @@ var BezierGenerator = {
 
 		// var rat1 = ( rad0 + (rad3 - rad0) * 0.4 ) / rad0;
 		// var rat2 = ( rad3 - (rad3 - rad0) * 0.4 ) / rad3;
-		var rat1 = 1.1;
-		var rat2 = 0.9;
+		var rat1 = 1.4;
+		var rat2 = 0.7;
 
 		var p1 = vec3.create(); vec3.scale(p1, p0, rat1);
 		var p2 = vec3.create(); vec3.scale(p2, p3, rat2);

@@ -3,6 +3,7 @@ var Drawable = function (gl, vertex, normals, color, scale) {
 	this.vertex = vertex;
 	this.normals = normals;
 	this.color = color;
+	this.depth = 0; // default, enable drawing
 	this.vertexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, this.vertex, gl.STATIC_DRAW);

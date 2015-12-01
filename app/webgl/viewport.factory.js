@@ -51,6 +51,11 @@ Camera.prototype.changeRadius = function(dscroll) {
 	return this.radius;
 };
 
+Camera.prototype.setRadius = function(radius) {
+	this.radius = radius;
+	this.computeEye;
+}
+
 Camera.prototype.getMatrix = function() {
 	if (this.wasChanged) {
 		this.computeEye();

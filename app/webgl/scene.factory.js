@@ -6,14 +6,23 @@ _webgl.factory('webgl.scene', function webglScene() {
 		this.lines = [];
 		this.meshes = [];
 		this.clouds = [];
-		this.rangeSpheres = [];
+		this.points = [];
 
 		this.enable = {
 			lines: true,
-			meshes: false,
+			meshes: true,
 			clouds: true,
-			rangeSpheres: false,
+			points: true,
 			depth: 5
+		};
+
+		this.buffer = {
+			x: 0,
+			y: 0,
+			x0: 0,
+			y0: 0,
+			down: false,
+			dscroll: 0
 		};
 
 		this.camera = new Camera(3, 3, 0,    0,0,0,    0,0,1);
@@ -66,7 +75,8 @@ _webgl.factory('webgl.scene', function webglScene() {
 			this.gl.useProgram(this.lineDrawer.program);
 			this.lineDrawer.setViewport(this.camera, this.projection);
 			for (var i = 0; i < this.lines.length; i++) {
-				if (this.lines[i].depth <= lim) {
+				var d = this.lines[i].depth;
+				if (!angular.isDefined(d) || d <= lim) {
 					this.lineDrawer.draw(this.lines[i], t);
 				}
 			};
@@ -92,9 +102,16 @@ _webgl.factory('webgl.scene', function webglScene() {
 			};
 		}
 
+		if (this.enable.points) {
+			this.pointDrawer.setProgram();
+			this.pointDrawer.setViewport(this.camera, this.projection);
+			this.pointDrawer.draw(this.points);
+		}
+
 	};
 
 	Scene.prototype.handleEvents = function (eventBuffer) {
+		if (!eventBuffer) eventBuffer = this.buffer;
 		var deltaX = eventBuffer.x - eventBuffer.x0;
 		var deltaY = eventBuffer.y - eventBuffer.y0;
 		if (eventBuffer.down) {
@@ -107,6 +124,24 @@ _webgl.factory('webgl.scene', function webglScene() {
 		}
 		eventBuffer.x0 = eventBuffer.x;
 		eventBuffer.y0 = eventBuffer.y;
+	};
+
+	Scene.prototype.onmousemove = function (event) {
+		this.buffer.x = event.clientX;
+		this.buffer.y = event.clientY;
+	};
+
+	Scene.prototype.onmousedown = function (event) {
+		if (event.button != 0) return;
+		this.buffer.down = true;
+		this.buffer.x0 = event.clientX;
+		this.buffer.x = event.clientX;
+		this.buffer.y0 = event.clientY;
+		this.buffer.y = event.clientY;
+	};
+
+	Scene.prototype.onmouseup = function (event) {
+		this.buffer.down = false;
 	};
 
 	return Scene;
