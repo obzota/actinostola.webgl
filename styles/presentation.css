@@ -10,10 +10,6 @@ body {
 
 }
 
-::-webkit-scrollbar {
-    display: none;
-}
-
 .header {
 	text-align: center;
 	font-size: 500%;
