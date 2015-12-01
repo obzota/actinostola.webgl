@@ -194,11 +194,11 @@
 
 <div id="introduction">
 	<p> Actinostola is an academic project of computer graphics. The aim of the project is to build a representation for the folder architecture of a computer. The interesting point is that it can be adapted to any hierachical structure that grows exponentially.</p>
-	<p>You'll find bellow an overview of the different element of representation. The demos are interactives. You can drag on the canva to rotate the scene. Double-click allows you to randomly generate a new scene.</p>
+	<p>You'll find below an overview of the different elements of representation. The demos are interactive. You can drag on the canvas to rotate the scenes. Double-click allows you to randomly generate a new scene.</p>
 	<p> The start button will lead you to the application with an example of architecture.</p>
 </div>
 <div id="disclaimer">
-	<p>Unfortunatly, the demos and the app doesn't work on Firefox due to a shader compilation problem. Also the site is not designed for mobile rendering. I haven't got time to solve this compatibility issues.</p>
+	<p>Unfortunatly, the demos and the app don't work on Firefox due to a shader compilation problem. Also the site is not designed for mobile rendering. I haven't got time to solve this compatibility issues.</p>
 </div>
 
 <div class="sectiontitle"> Technologies</div>
@@ -233,7 +233,7 @@
 	<div class="corpus right">
 		<div class="title">Mesh Shading</div>
 		<div class="text">
-			<p>Phong illumination model. Very shine. Such light. Wow. Very shine. Such light. Wow. Very shine. Such light. Wow.</p>
+			<p>Phong illumination model. Very shine. Such light. Wow. Very reflect. Such sphere. Very camera. Wow. Such normals. Wow.</p>
 		</div>
 	</div>
 </div>
@@ -242,7 +242,7 @@
 	<div class="corpus left">
 		<div class="title">Folders</div>
 		<div class="text">
-			<p>Folders are simply represented by location in the space. We can materialize them using a little sphere of course. The choice of the location is bound to the depth of the folder (i.e. the distance to the root folder). The root folder is placed at the origin, then we associate with each depth a radius. All the folders of a given depth will be on the surface of a sphere of center origin and with the corresponding radius.</p>
+			<p>Folders are simply represented by location in the space. We can materialize them using a little sphere. The choice of the location is bound to the depth of the folder (i.e. the distance to the root folder). The root folder is placed at the origin, then we associate with each depth a radius. All the folders of a given depth will be on the surface of a sphere of center origin and with the corresponding radius.</p>
 		</div>
 	</div>
 	<canvas id="folderscanvas" ng-controller="demo.foldersctrl"></canvas>
@@ -263,7 +263,7 @@
 	<div class="corpus left">
 		<div class="title">Bezier Curves</div>
 		<div class="text">
-			<p>Bezier curves are drawn to represent the links between folders. In order to give a soft representation the tangents at the folders follows is the radius from the origin to the folder. That give the aspect flowers expanding and giving birth to other flowers.</p>
+			<p>Bezier curves are drawn to represent the links between folders. In order to give an oriented representation, the tangents of the curves at a folder follow the ray from the origin to that folder. Those soft curves give the result the aspect of flowers expanding and giving birth to other flowers, thus giving the project its name of Actinostola (which is a variety of anemone).</p>
 			<p>To increase the versatility in the representation, for each link two cubic Bézier are joints. A soft joint is made around the linking point. The linking point is simply the middle point between two folders.</p>
 			<p>The brightness of the curve is diminished as it progress to the child folder. This effect increase the clarity of the representation and the effect of flowering.</p>
 		</div>
